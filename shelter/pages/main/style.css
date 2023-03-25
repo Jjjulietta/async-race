@@ -67,7 +67,7 @@ scroll-behavior: smooth;
     height: 180px;
     padding: 30px 0px 90px;
     z-index: 10;
-    width: 1280px;
+    width: 95%;
 }
 
 .header__body {
@@ -110,12 +110,9 @@ scroll-behavior: smooth;
     letter-spacing: 0.1em;
     
     /* color-light-xl */
-    
     color: #FFFFFF;
 }
-.header__menu {
-    
-}
+
 .menu__list {
     display: flex;
     align-items: center;
@@ -134,14 +131,12 @@ color: #CDCDCD;
 .menu__item:not(:last-child){
     margin-right: 35px;
 }
-.menu__link {
-   
-}
+
 .menu__item:first-child{
     border-bottom: 3px solid #F1CDB3;
     color: #FAFAFA;
 }
-.menu__item:not(:first-child):hover{
+.menu__list >li:not(:first-child):hover{
     cursor: pointer;
     color: #FAFAFA;
 }
@@ -174,8 +169,7 @@ margin-bottom: 42px;
 width: 67.4%;
 }
 
-.not-only__text {
-}
+
 .text {
 font-family: 'Arial';
 font-style: normal;
@@ -185,8 +179,7 @@ line-height: 160%;
 color: #CDCDCD;
 margin-bottom: 42px;
 }
-.not-only__btn {
-}
+
 .btn1 {
 display: flex;
 align-items: center;
@@ -331,6 +324,7 @@ transform: rotate(180deg);
 
 .friends__button {
     width: 260px;
+    
 }
 .btn2{
     display: flex;
@@ -389,6 +383,7 @@ color: #545454;
 }
 .card__button {
     margin-bottom: 30px;
+    transition: all 0.5s;
 }
 
 /*--------------------------------HELP--------------------------------*/
@@ -460,8 +455,6 @@ color: #545454;
     
 }
 
-.img__additions {
-}
 .additions__block {
     flex: 0 1 50%;
     display: flex;
@@ -493,10 +486,9 @@ margin-bottom: 20px;
     background: #F1CDB3;
 border-radius: 9px;
 margin-bottom: 20px;
+cursor: pointer;
 }
-.additions__icon {
-   
-}
+
 .additions__number {
 font-size: 20px;
 line-height: 115%;
@@ -516,7 +508,9 @@ line-height: 18px;
 color: #B2B2B2;
 
 }
-
+.additions__acc:hover{
+    background: #FDDCC4;
+}
 /*--------------------------FOOTER----------------------------------------*/
 .footer {
     padding-top: 40px;
@@ -548,7 +542,16 @@ color: #B2B2B2;
 }
 .contact__email {
     margin-bottom: 40px;
+    cursor: pointer;
+   
 }
+.contact__email:hover > a{
+    color: #FFFFFF;
+}
+.contact__email:hover > a >img{
+    transform: rotateY(180deg); 
+}
+
 .email__link {
    font-size: 20px;
 line-height: 115%;
@@ -563,11 +566,21 @@ color: #F1CDB3;
 .email__icon {
     margin-right: 20px;
     vertical-align: middle;
+    transition: all 0.5s;
 }
-.email__contact {
+
+
+.contact__phone >a{
+transition: all 0.5s;
 }
-.contact__phone {
-    
+.contact__phone:hover >a{
+    cursor: pointer;
+    color: #FFFFFF;
+}
+
+.contact__phone:hover >a >img{
+   transform: rotateY(180deg); 
+   
 }
 .phone__num {
 font-size: 20px;
@@ -580,9 +593,9 @@ color: #F1CDB3;
 .phone__icon {
     margin-right: 20px;
     vertical-align: middle;
+    transition: all 0.5s;
 }
-.phone__contact {
-}
+
 .footer__adress {
     display: flex;
     flex-direction: column;
@@ -597,21 +610,37 @@ color: #F1CDB3;
 .adress {
     display: flex;
     margin-bottom: 32px;
+    cursor: pointer;
+    transition: all 0.5s;
 }
+.adress__two{
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
 .adress__link {
    font-size: 20px;
 line-height: 115%;
 letter-spacing: 0.06em;
 color: #F1CDB3;
 }
+
+.adress__link:hover{
+    color: #FFFFFF;
+}
 .adress__icon {
     margin-right: 20px;
     vertical-align: middle;
+    transition: all 0.5s;
+}
+
+.adress:hover > img{
+    transform: rotateY(180deg); 
+}
+
+.adress__two:hover>a>img{
+    transform: rotateY(180deg); 
 }
 .place__contact {
     display: inline-block;
-}
-.footer__img {
-}
-.img__footer {
 }
