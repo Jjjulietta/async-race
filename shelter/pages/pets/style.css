@@ -47,7 +47,7 @@ body {
     width: 1280px;
   overflow: hidden;
   min-height: 100%;
- /* margin: 0 auto;*/
+ margin: 0 auto;
  
 }
 .title {
@@ -105,7 +105,7 @@ letter-spacing: 0.06em;
 color: #545454;
 vertical-align: top;
 margin-bottom: 10px;
-
+transition: all 0.5s;
 }
 .header__title:hover{
     color: #F1CDB3;
@@ -143,24 +143,27 @@ margin-bottom: 10px;
     line-height: 160%;
     color: #545454;
     cursor: pointer;
+    transition: all 0.5s;
 }
 .menu__item:not(:last-child){
     margin-right: 35px;
 }
 .menu__item:hover {
     color: #292929;
-   
+
 }
 
-.active{
+.active {
     color: #292929;
     border-bottom: 3px solid #F1CDB3;
+    cursor:default;
+}
+.active >a{
+    cursor: default;
 }
 
 /*------------------------FRIENDS-------------------------------*/
-.main {
-   
-}
+
 .main__friends {
     padding: 82px 0px 103px;
     background: #F6F6F6;
@@ -274,7 +277,7 @@ color: #292929;
 display: flex;
 align-items: center;
 justify-content: center;
-
+transition: all 0.5s;
 }
 
 .in{
@@ -298,10 +301,12 @@ letter-spacing: 0.06em;
     height: 52px;
     border-radius: 50%;
     border: 2px solid #F1CDB3;
+    background: #F1CDB3;
     color: #292929;
    display: flex;
    align-items: center;
    justify-content: center;
+   transition: all 0.5s;
 }
 
 
@@ -344,15 +349,18 @@ letter-spacing: 0.06em;
 /* color-primary */
 
 color: #F1CDB3;
+transition: all 0.5s;
 }
 .email__icon {
     margin-right: 20px;
     vertical-align: middle;
+    transition: all 0.5s;
 }
-.email__contact {
+.contact__email:hover > a{
+    color: #FFFFFF;
 }
-.contact__phone {
-    
+.contact__email:hover > a >img{
+    transform: rotateY(180deg); 
 }
 .phone__num {
     font-family: 'Georgia';
@@ -371,7 +379,20 @@ color: #F1CDB3;
 .phone__icon {
     margin-right: 20px;
     vertical-align: middle;
+    transition: all 0.5s;
 }
+.contact__phone >a{
+    transition: all 0.5s;
+    }
+    .contact__phone:hover >a{
+        cursor: pointer;
+        color: #FFFFFF;
+    }
+    
+    .contact__phone:hover >a >img{
+       transform: rotateY(180deg); 
+       
+    }
 
 .footer__adress {
     display: flex;
@@ -387,6 +408,7 @@ color: #F1CDB3;
 .adress {
     display: flex;
     margin-bottom: 32px;
+    transition: all 0.5s;
 }
 .adress__link {
     font-family: 'Georgia';
@@ -401,10 +423,22 @@ letter-spacing: 0.06em;
 /* color-primary */
 
 color: #F1CDB3;
+transition: all 0.5s;
+}
+.adress__link:hover{
+    color: #FFFFFF;
+}
+.adress:hover > img{
+    transform: rotateY(180deg); 
+}
+
+.adress__two:hover>a>img{
+    transform: rotateY(180deg); 
 }
 .adress__icon {
     margin-right: 20px;
     vertical-align: middle;
+    transition: all 0.5s;
 }
 .place__contact {
     display: inline-block;
