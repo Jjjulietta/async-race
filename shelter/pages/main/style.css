@@ -498,6 +498,7 @@ margin-bottom: 20px;
 border-radius: 9px;
 margin-bottom: 20px;
 cursor: pointer;
+transition: all 0.5s;
 }
 
 .additions__number {
