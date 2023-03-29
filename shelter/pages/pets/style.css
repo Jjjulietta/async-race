@@ -273,6 +273,12 @@ color: #292929;
     background: #FDDCC4;
     
 }
+.arrow> button:disabled:hover{
+    cursor: not-allowed;
+    border: 2px solid #CDCDCD;
+    color: #CDCDCD;
+    background: inherit;
+}
 .active-btn{
     border: 2px solid #F1CDB3;
     color: #292929;
