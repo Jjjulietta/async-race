@@ -94,15 +94,19 @@ scroll-behavior: smooth;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-   
+   height: 100%;
 }
-
+.logo__link{
+    display: block;
+    height: 100%;
+}
 .header__title{
     font-size: 32px;
     line-height: 110%;
     display: flex;
     align-items: center;
     letter-spacing: 0.06em;
+    margin-bottom: 10px;
     color: #F1CDB3;
     transition: all 0.5s;
 }
@@ -631,7 +635,7 @@ color: #F1CDB3;
 }
 
 .adress__link {
-   font-size: 20px;
+font-size: 20px;
 line-height: 115%;
 letter-spacing: 0.06em;
 color: #F1CDB3;
@@ -683,7 +687,7 @@ color: #F1CDB3;
         display: block;
         position: relative;
         top: 0px;
-        right: 43px;
+        right: 0px;
         z-index: 100;
         width: 30px;
         height: 22px;
@@ -827,11 +831,11 @@ color: #F1CDB3;
         }
     
         .main__help {
-            padding: 80px 0px 45px;
+            padding: 80px 0px 42px;
         }
         
        .help__body{
-        margin: 0px 3%;
+        margin: 0px;
        }
         .help__title {
             margin-bottom: 60px;
@@ -896,7 +900,7 @@ color: #F1CDB3;
             margin-top: 0px;
         }
         .footer__adress{
-            width: 46.7%;
+            width: 47.2%;
             margin-top: 0px;
         }
     }
@@ -910,7 +914,7 @@ color: #F1CDB3;
           }
           .header {
             height: 150px;
-            padding: 30px 0px 60px 0px;
+            padding: 30px 10px 60px;
             z-index: 10;
             width: 100%;
         }
@@ -936,7 +940,8 @@ color: #F1CDB3;
         line-height: 130%;
         width: 100%;
         text-align: center;
-        padding: 0px 20%;
+        padding: 0px 13%;
+        letter-spacing: 0.06em;
         }
         
         .not-only__text {
@@ -1051,11 +1056,11 @@ color: #F1CDB3;
             margin-right: 40px;
         }
         .main__help {
-            padding: 42px 0px 10px;
+            padding: 42px 0px 13px;
         }
         .help__title {
             margin-bottom: 42px;
-            width: 68%;
+            width: 80%;
             text-align: center;
         }
         .help__block{
@@ -1082,7 +1087,7 @@ color: #F1CDB3;
         .help__name {
             font-size: 15px;
             line-height: 110%;
-    
+        
             }
        
         #help__item-two{
@@ -1094,6 +1099,10 @@ color: #F1CDB3;
         #help__item-six{
             margin-right: 0px;
         }
+        #help__item-eight{
+            margin-right: 0px;
+        }
+        
         .main__additions{
             padding: 42px 0px;
             background: #F6F6F6;
@@ -1180,12 +1189,18 @@ color: #F1CDB3;
             margin-bottom: 40px;
            margin-top: 0px;
         }
+        .adress {
+            
+            margin-bottom: 40px;
+            
+        }
         .adress__title {
             align-self: center;
             width: 90%;
             text-align: center;
             margin-bottom: 40px;
         }
+        
         .footer__img {
             display: flex;
             align-items: center;
