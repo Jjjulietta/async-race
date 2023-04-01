@@ -262,6 +262,7 @@ color: #292929;
 }
 .arrow > button{
     cursor: pointer;
+    
 }
 .arrow > button:focus{
     border: 2px solid #F1CDB3;
@@ -287,7 +288,7 @@ color: #292929;
     display: block;
     width: 52px;
     height: 52px;
-   
+    background: transparent;
     border-radius: 50%;
 display: flex;
 align-items: center;
@@ -582,6 +583,7 @@ transition: all 0.5s;
             padding: 0px;
             
         }
+
         .footer {
             padding-top: 30px;
            
