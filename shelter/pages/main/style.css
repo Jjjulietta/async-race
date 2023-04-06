@@ -334,10 +334,27 @@ transform: rotate(180deg);
 }
 
 .friends__carusel {
+    position: relative;
+    left: 0px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 60px;
+    width: auto;
+    transition:  all 0.5s;
+}
+
+.friends__item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 60px;
+    
+    width: 990px;
+}
+.carusel__wrapper{
+width: 990px;
+overflow: hidden;
 }
 
 .friends__button {
@@ -375,6 +392,32 @@ cursor: pointer;
     justify-content: center;
     
 }
+
+@keyframes moveleft{
+    from {
+        left: 0px;
+    }
+    to{left: -990px;}
+}
+
+@keyframes moveright{
+    from {
+        left: -990px;
+    }
+    to{left: 0px;}
+}
+
+.transition-left{
+    animation-name: moveleft;
+    animation-duration: 0.5s;
+   
+   
+}
+.transition-right{
+    animation-name: moveright;
+    animation-duration: 0.5s;
+}
+
 .friends__card {
     width: 270px;
     display: flex;
@@ -824,9 +867,23 @@ color: #F1CDB3;
         }
         .friends__carusel {
             width: auto;
-            overflow: hidden;
+          /*  overflow: hidden;*/
             margin-bottom: 60px;
         }
+        @keyframes moveleft{
+            from {
+                left: 0px;
+            }
+            to{left: -580px;}
+        }
+        
+        @keyframes moveright{
+            from {
+                left: -580px;
+            }
+            to{left: 0px;}
+        }
+        
         .arrow__button-right {
             margin-left: 12px;
         }
@@ -1030,9 +1087,27 @@ color: #F1CDB3;
             }
     
         .friends__carusel {
-            width: 270px;
-            overflow: hidden;
+            width: auto;
+           /* overflow: hidden;*/
             margin-bottom: 21px;
+        }
+            .carusel__wrapper{
+                width: 270px;
+            }
+            
+        
+        @keyframes moveleft{
+            from {
+                left: 0px;
+            }
+            to{left: -270px;}
+        }
+        
+        @keyframes moveright{
+            from {
+                left: -270px;
+            }
+            to{left: 0px;}
         }
         .buttons__block{
             display: flex;
