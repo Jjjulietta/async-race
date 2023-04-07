@@ -280,26 +280,34 @@ color: #292929;
     color: #CDCDCD;
     background: inherit;
 }
-.active-btn{
+/*.active-btn{
     border: 2px solid #F1CDB3;
     color: #292929;
-}
+}*/
 .arrow__button {
     display: block;
     width: 52px;
     height: 52px;
     background: transparent;
     border-radius: 50%;
+    border: 2px solid #F1CDB3;
+    color: #292929;
 display: flex;
 align-items: center;
 justify-content: center;
 transition: all 0.5s;
 }
 
-.in{
-    transform: rotate(180deg);
+.arrow__button:disabled{
     border: 2px solid #CDCDCD;
     color: #CDCDCD;
+    cursor: not-allowed;
+}
+
+.in{
+    transform: rotate(180deg);
+   /* border: 2px solid #CDCDCD;
+    color: #CDCDCD;*/
 }
 .arrow__img{
     display: block;
