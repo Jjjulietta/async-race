@@ -312,6 +312,7 @@ console.log(popapBlok)
 let closePopap = document.querySelector('.close__popap');
 
 
+
 let friendsCards = document.querySelectorAll('.friends__card');
 carusel.addEventListener('click', (event)=>{
     let target = event.target;
@@ -344,7 +345,7 @@ carusel.addEventListener('click', (event)=>{
    /* let popapClose = document.querySelector('.popap__close');*/
     let popapBody = document.querySelector('.popap__body');
     popapBody.append(closePopap);
-    body.classList.add('popap-body')
+    body.classList.add('popap-fix')
     console.log(popapClose)
 })
 
@@ -355,7 +356,7 @@ carusel.addEventListener('click', (event)=>{
         let popapBody = document.querySelector('.popap__body')
         popapP.classList.remove('popap-opened')
         popapBlok.classList.remove('open__popap');
-        body.classList.remove('popap-body')
+        body.classList.remove('popap-fix')
         popapBlok.append(closePopap)
         popapBody.outerHTML = ''
     })
@@ -366,7 +367,7 @@ popapBlok.addEventListener('click', (event)=>{
     if(target.closest('.popap__body')){console.log(target); return} else{
         popapP.classList.remove('popap-opened')
         popapBlok.classList.remove('open__popap');
-        body.classList.remove('popap-body');
+        body.classList.remove('popap-fix');
         popapBlok.append(closePopap)
         popapBody.outerHTML = ''
     }

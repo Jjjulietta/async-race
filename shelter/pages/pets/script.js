@@ -309,3 +309,65 @@ arrowLeft.addEventListener('click', ()=>{
     if(arrowRightFirst.hasAttribute('disabled')) {arrowRightFirst.removeAttribute('disabled')}
 })
 
+/*-------------------POPAP--------------------*/
+let popapP = document.querySelector('.popap__popap')
+let popapBlok = document.querySelector('.popap__blok');
+console.log(popapBlok)
+let closePopap = document.querySelector('.close__popap');
+
+
+let friendsCards = document.querySelectorAll('.friends__card');
+friends.addEventListener('click', (event)=>{
+    let target = event.target;
+    if(target.closest('DIV')){
+        let div = target.closest('.friends__card');
+        let name = div.childNodes[1].innerHTML;
+        let getPopaps = ()=>{
+            let arr = [];
+            console.log(data);
+            data.forEach(item =>{arr.push(new Object(item))})
+            console.log(arr);
+            return arr;
+        } 
+    let popaps = getPopaps()
+            popapP.classList.add('popap-opened');
+        for(let item of popaps){
+            if(item.name == name){
+                console.log(item.name)
+                popapBlok.appendChild(item.getPopap());
+                popapBlok.classList.add('open__popap')
+            }
+        }
+        
+    }
+   /* let popapClose = document.querySelector('.popap__close');*/
+    let popapBody = document.querySelector('.popap__body');
+    popapBody.append(closePopap);
+    body.classList.add('popap-fix')
+    console.log(popapClose)
+})
+
+
+    let popapClose = document.querySelector('.popap__close');
+    console.log(popapClose)
+    closePopap.addEventListener('click', ()=>{
+        let popapBody = document.querySelector('.popap__body')
+        popapP.classList.remove('popap-opened')
+        popapBlok.classList.remove('open__popap');
+        body.classList.remove('popap-fix')
+        popapBlok.append(closePopap)
+        popapBody.outerHTML = ''
+    })
+
+popapBlok.addEventListener('click', (event)=>{
+    let target = event.target;
+    let popapBody = document.querySelector('.popap__body');
+    if(target.closest('.popap__body')){console.log(target); return} else{
+        popapP.classList.remove('popap-opened')
+        popapBlok.classList.remove('open__popap');
+        body.classList.remove('popap-fix');
+        popapBlok.append(closePopap)
+        popapBody.outerHTML = ''
+    }
+
+})
