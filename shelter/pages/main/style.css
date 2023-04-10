@@ -853,6 +853,9 @@ color: #F1CDB3;
 border-radius: 90px;
 cursor: pointer;
 }
+.close__popap:hover{
+    background-color: #FDDCC4;
+}
 
 .popap__body{   
     position: relative;
