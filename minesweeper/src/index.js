@@ -35,7 +35,7 @@ for (let i = 0; i < type.length; i += 1) {
 }
 selectBlock.append(select);
 
-const playLevel = select.value;
+let playLevel = select.value;
 
 /* ----------------SELECT BOMBS QUANTITY------- */
 
@@ -107,7 +107,7 @@ let countClick = 0;
 count.innerHTML = `${countClick}`;
 
 function clickCount() {
-  let countClick = 0;
+ let countClick = 0;
   return function () {
     return countClick += 1;
   };
@@ -238,14 +238,61 @@ menuBTN.addEventListener('click', () => {
   menu.classList.toggle('menu__open');
 });
 
+/* ---------------------POPAP-------------------- */
+
+const popap = document.createElement('div');
+popap.classList.add('popap');
+const popapBody = document.createElement('div');
+popapBody.classList.add('popap__body');
+const popapWin = document.createElement('div');
+popapWin.classList.add('popap__win');
+popapWin.innerHTML = `Hooray! You found all mines in ${counter} seconds and ${count.innerHTML} moves!`
+const popapFall = document.createElement('div');
+popapFall.classList.add('popap__fall');
+popapFall.innerHTML = 'Game over. Try again';
+const popapResults = document.createElement('div');
+const popapTitle = document.createElement('h3');
+popapResults.prepend(popapTitle);
+popapTitle.innerHTML = 'RESULTS';
+const table = document.createElement('table');
+table.classList.add('popap__table');
+let numCol = 2;
+let numRow = 11;
+for (let i = 0; i < numRow; i += 1) {
+  let tr = document.createElement('tr');
+  table.append(tr);
+  for (let j = 0; j < numCol; j += 1) {
+    if (i === 0) {
+      let th = document.createElement('th');
+      tr.append(th);
+    } else {
+      let td = document.createElement('td');
+      tr.append(td);
+    }
+  }
+}
+
+popapResults.append(table)
+
+popapResults.classList.add('popap__results');
+popap.append(popapBody);
+popapBody.append(popapWin);
+popapBody.append(popapFall);
+popapBody.append(popapResults);
+body.append(popap)
+
+const th = document.querySelectorAll('th');
+th[0].innerHTML = 'level';
+th[1].innerHTML = 'time game';
+
 /* ---------------------END-------------------------- */
 
 /* ---------------------DEFOLT FIELD---------------------------------- */
 
-const widthField = level[`${playLevel}`].width;
-const heigthField = level[`${playLevel}`].heigth;
-const field = new Field(widthField, heigthField);
-const fieldLevel = field.openBasic();
+let widthField = level[`${playLevel}`].width;
+let heigthField = level[`${playLevel}`].heigth;
+let field = new Field(widthField, heigthField);
+let fieldLevel = field.openBasic();
 fieldLevel.classList.add('basic-field');
 mainContainer.append(fieldLevel);
 let buttons = document.querySelectorAll('button');
@@ -261,6 +308,7 @@ inputBombsCount.addEventListener('change', () => {
 });
 
 /* ---------defolt----- func OPEN EL, CHECK FIELD, CHECK MINES-------------------- */
+
 function openElement(indexButton) {
   // console.log(indexButton);
   // console.log(mines);
@@ -268,7 +316,7 @@ function openElement(indexButton) {
   buttons = document.querySelectorAll('button');
   // let indexButton = [...buttons].indexOf(target);
   if (field.noValid(indexButton)) { return; }
-  const value = buttons[indexButton];
+  let value = buttons[indexButton];
 
   if (mines.includes(indexButton)) {
     fallGame(buttons, value);
@@ -285,7 +333,7 @@ function openElement(indexButton) {
     return;
   }
 
-  const numbers = field.openNeighbour(indexButton, mines);
+  let numbers = field.openNeighbour(indexButton, mines);
   // console.log(numbers);
   for (let i = 0; i < numbers.length; i++) {
     openElement(numbers[i], mines, field);
@@ -331,26 +379,29 @@ function checkNumber(number, value) {
 function checkEmpty(buttons, mines){
 // console.log(buttons);
 let emptyButtons = [...buttons].filter((item, index) => {if(!mines.includes(index)) {return item}});
-console.log(emptyButtons);
+// console.log(emptyButtons);
 if(emptyButtons.every(item => item.disabled === true)) {
   return true;
 } 
 }
 
 function clickField(event) {
-  const { target } = event;
+  let { target } = event;
   if (target.tagName !== 'BUTTON') { console.log(target); return; }
-  const src = './sounds/click.wav';
+  let src = './sounds/click.wav';
   playMusic(src);
   if (sound.classList.contains('close')) {
     music.muted = true;
   }
-  const buttons = document.querySelectorAll('button');
+  buttons = document.querySelectorAll('button');
 
-  const indexButton = [...buttons].indexOf(target);
+  let indexButton = [...buttons].indexOf(target);
   if (countClick !== 0) {
     count.innerHTML = `${countClick()}`; openElement(indexButton);
   } else {
+    popap.classList.remove('popap__move');
+  popapFall.classList.remove('popap__move');
+  popapWin.classList.remove('popap__move');
     countClick = clickCount();
     window.timer = window.setInterval(showTime, 1000);
     count.innerHTML = `${countClick()}`;
@@ -367,6 +418,63 @@ function clickField(event) {
   }
 }
 
+function winGame(){
+  resultObj[time.innerHTML] = select.value;
+  setLocalStorageRes();
+  popapWin.innerHTML = `Hooray! You found all mines in ${counter} seconds and ${count.innerHTML} moves!`
+  let src = './sounds/win.wav';
+playMusic(src); 
+if(sound.classList.contains('close')){
+  music.muted = true;
+  }
+  popap.classList.add('popap__move');
+popapWin.classList.add('popap__move');
+  window.clearInterval(window.timer); 
+  time.innerHTML = '0'.padStart(3, 0);
+  count.innerHTML = '0';
+  
+return resultObj;
+}
+
+function fallGame(buttons, value){
+window.clearInterval(window.timer); value.innerHTML = '&#128165;';  
+  mines.forEach(item => buttons[item].innerHTML = '&#128165;'); 
+ [...buttons].forEach(item => item.disabled = true); time.innerHTML = '0'.padStart(3, 0);
+ let src = './sounds/lose_minesweeper.wav';
+  playMusic(src);
+  if(sound.classList.contains('close')){
+    music.muted = true;
+    }
+popap.classList.add('popap__move');
+popapFall.classList.add('popap__move');
+}
+
+function changeLevel(fieldLevel, buttons) {
+  popap.classList.remove('popap__move');
+  popapFall.classList.remove('popap__move');
+  popapWin.classList.remove('popap__move');
+  fieldLevel.classList.remove('basic-field');
+  fieldLevel.classList.remove('medium-field');
+  fieldLevel.classList.remove('hard-field');
+  buttons.forEach((item) => item.classList.remove('button__basic'));
+  buttons.forEach((item) => item.classList.remove('button__medium'));
+  buttons.forEach((item) => item.classList.remove('button__hard'))
+  
+   if(playLevel === 'Easy') {
+  fieldLevel.classList.add('basic-field');
+  buttons.forEach((item) => item.classList.add('button__basic'))
+  }
+  if(playLevel === 'Medium') {
+    fieldLevel.classList.add('medium-field');
+    buttons.forEach((item) => item.classList.add('button__medium'))
+  //  fieldLevel.addEventListener('click', clickField)
+    }
+    if(playLevel === 'Hard') {
+      fieldLevel.classList.add('hard-field');
+      buttons.forEach((item) => item.classList.add('button__hard'))
+      } 
+}
+
 /* -------------- defolt EVENTS  ------------------- */
 
 fieldLevel.addEventListener('click', (event) => {
@@ -376,16 +484,18 @@ fieldLevel.addEventListener('click', (event) => {
 });
 
 fieldLevel.addEventListener('contextmenu', (event) => {
-  const { target } = event;
+  let { target } = event;
   if (target.tagName !== 'BUTTON') { console.log(target); return; }
+  
   event.preventDefault();
-  const indexButton = [...buttons].indexOf(target);
+  if (target.disabled === true) { return; }
+  let indexButton = [...buttons].indexOf(target);
   if (mines.includes(indexButton)) {
     //console.log(minesNumber);
     minesNumber -= 1;
     bombCount.innerHTML = minesNumber;
   }
-  const src = './sounds/start.wav';
+  let src = './sounds/start.wav';
   playMusic(src);
   if (sound.classList.contains('close')) {
     music.muted = true;
@@ -393,3 +503,133 @@ fieldLevel.addEventListener('contextmenu', (event) => {
   target.disabled = true;
   target.innerHTML = '&#128681;';
 });
+
+/* --------------------SELECT LEVEL ---------------------- */
+
+select.addEventListener('change', () =>{
+  playLevel = '';
+  playLevel = select.value;
+  // console.log(playLevel)
+  widthField = level[`${playLevel}`].width;
+  heigthField = level[`${playLevel}`].heigth;
+  field = new Field(widthField, heigthField);
+
+  fieldLevel = field.openBasic();
+  // console.log(fieldLevel)
+  mainContainer.textContent = '';
+  mainContainer.append(fieldLevel);
+  buttons = document.querySelectorAll('button');
+  // console.log(buttons);
+  changeLevel(fieldLevel, buttons);
+ 
+  mainContainer.append(fieldLevel);
+  bombCount.innerHTML = `${inputBombsCount.value}`;
+  minesNumber = bombCount.innerHTML;
+ mines = field.getMines(minesNumber);
+  // console.log(mines);
+
+ fieldLevel.addEventListener('click', (event) => {
+    let target = event.target;
+  if(target.tagName !== 'BUTTON') {console.log(target); return};
+  let src = './music/click.wav';
+  playMusic(src);
+  if(sound.classList.contains('close')){
+  music.muted = true;
+  }
+   buttons = document.querySelectorAll('button');
+  console.log(buttons);
+  
+  let indexButton = [...buttons].indexOf(target);
+  if(countClick !== 0) { count.innerHTML = `${countClick()}`;
+   elemenField(indexButton, mines, field);
+  } else {
+    countClick = clickCount();
+    window.timer = window.setInterval(showTime, 1000);
+  count.innerHTML = `${countClick()}`;
+  if(mines.includes(indexButton)) {
+      // console.log(mines.includes(indexButton))
+mines = checkMinesLevel(indexButton, field);
+      //console.log(mines);
+  } mines = mines; elemenField(indexButton, mines, field);
+} if(checkEmpty(buttons, mines)){ 
+  let src = './music/win.wav';
+   playMusic(src);
+  
+  if(sound.classList.contains('close')){
+  music.muted = true;
+  }
+  popap.classList.add('popap__move');
+  popapWin.classList.add('popap__move');
+  window.clearInterval(window.timer); 
+  time.innerHTML = '0'.padStart(3, 0);
+  count.innerHTML = '0';
+  
+ 
+/*popap.classList.remove('popap__move');
+popapWin.classList.remove('popap__move');*/
+}
+});
+
+fieldLevel.addEventListener('contextmenu', (event)=>{
+  let target = event.target;
+  if(target.tagName !== 'BUTTON') {console.log(target); return};
+  
+  event.preventDefault();
+  if(target.disabled === true) { return}
+  let indexButton = [...buttons].indexOf(target);
+  if(mines.includes(indexButton)) {
+    console.log(minesNumber);
+    minesNumber = minesNumber -1;
+    bombCount.innerHTML = minesNumber;
+    }
+    let src = './music/start.wav';
+  playMusic(src);
+  if(sound.classList.contains('close')){
+    music.muted = true;
+    }
+  target.disabled = true;
+  target.innerHTML = '&#128681;';
+  
+})
+
+})
+
+function elemenField(indexButton, mines, field){
+  // console.log(indexButton);
+ // console.log(mines);
+ // console.log(field)
+  buttons = document.querySelectorAll('button');
+ // let indexButton = [...buttons].indexOf(target);
+if(field.noValid(indexButton)) {return;}
+ let value = buttons[indexButton];
+ 
+ if(mines.includes(indexButton)) {
+  fallGame(buttons, value); return;
+} 
+ if(value.disabled === true) return;
+ value.disabled = true;
+ 
+ if(field.getNumber(indexButton, mines) !== 0) {
+  checkNumber(field.getNumber(indexButton, mines), value);
+  value.innerHTML = `${field.getNumber(indexButton, mines)}`;
+
+ value.disabled = true;
+
+ return}
+   // console.log(indexButton);
+  // console.log(field)
+    let numbers = field.openNeighbour(indexButton, mines);
+    console.log(numbers)
+    for(let i = 0; i < numbers.length; i++) {
+      elemenField(numbers[i], mines, field);
+    }
+      }
+
+function checkMinesLevel(indexButton, field) {
+        mines = field.getMines(minesNumber);
+        if(mines.includes(indexButton)) {
+        //  console.log(mines);
+       checkMinesLevel(indexButton, field);
+        } 
+        return mines;
+      }
