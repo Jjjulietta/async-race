@@ -1,4 +1,4 @@
-export class Field {
+export default class Field {
   constructor(width, heigth) {
     this.field = null;
 
@@ -36,7 +36,7 @@ export class Field {
     let count = 0;
 
     if (minesArr.includes(numberButton)) { return; }
-   
+
     const numCol = numberButton % this.width;
     const numRow = Math.floor(numberButton / this.width);
     for (let i = numCol - 1; i <= numCol + 1; i += 1) {
@@ -67,7 +67,7 @@ export class Field {
     for (let i = numCol - 1; i <= numCol + 1; i += 1) {
       if (i < 0 || i >= width) { continue; }
       for (let j = numRow - 1; j <= numRow + 1; j += 1) {
-        if (j < 0 || j >= width || (i === numCol && j === numRow)) {continue};
+        if (j < 0 || j >= width || (i === numCol && j === numRow)) { continue; }
         const n = j * width + i;
         if (minesArr.includes(n)) { return; }
 

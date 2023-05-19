@@ -12,6 +12,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    'import-extension': 'off',
+    'import/extensions': 'off',
+    'prefer-const': 'off',
   },
 };
