@@ -305,9 +305,12 @@ results.addEventListener('click', () => {
   let keys = Object.keys(resultObj);
   let values = Object.values(resultObj);
   if (keys.length === 11) {
+    console.log(resultObj[keys[0]]);
     delete resultObj[keys[0]];
-    setLocalStorageRes();
-  }
+    setLocalStorageRes(); console.log(resultObj); 
+    keys = Object.keys(resultObj);
+    values = Object.values(resultObj);
+  } 
   let tr = document.querySelectorAll('tr');
   [...tr].forEach((item, index) => {
     if (item.firstChild.tagName === 'TD') {item.firstChild.innerHTML = values[index-1];} 
@@ -713,6 +716,49 @@ continueGame.addEventListener('click', () => {
   fieldLevel.addEventListener('contextmenu', (event) => {
     markMine(event);
   });
+});
+
+/* --------------------------NEW GAME------------------- */
+
+buttonGame.addEventListener('click', () => {
+  let src = './sounds/lose_flowergarden_short.wav';
+  playMusic(src);
+  if(sound.classList.contains('close')){
+    music.muted = true;
+    }
+ // console.log(buttonGame);
+  playLevel = select.value;
+  //  console.log(playLevel)
+widthField = level[`${playLevel}`].width;
+heigthField = level[`${playLevel}`].heigth;
+field = new Field(widthField, heigthField);
+// fieldLevel.textContent = '';
+let fieldLevel = field.openBasic();
+//console.log(fieldLevel)
+mainContainer.textContent = '';
+mainContainer.append(fieldLevel);
+let buttons = document.querySelectorAll('button');
+changeLevel(fieldLevel, buttons);
+bombCount.innerHTML = `${inputBombsCount.value}`;
+minesNumber = bombCount.innerHTML;
+mines = field.getMines(minesNumber);
+//console.log(mines)
+window.clearInterval(window.timer);
+time.innerHTML = '0'.padStart(3, 0);
+counter = 0;
+countClick = 0;
+
+count.innerHTML = `${countClick}`;
+
+fieldLevel.addEventListener('click', (event)=>{
+  clickFieldSelect(event);
+}
+);
+
+fieldLevel.addEventListener('contextmenu', (event) => {
+  markMine(event);
+});
+
 });
 
 /* --------------------------------------------- */
