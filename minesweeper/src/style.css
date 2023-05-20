@@ -274,7 +274,7 @@ margin-right: 5px;
   border: 1px solid var(--btn-border);
   border-radius: 10%;
   background-color: var(--btn-bg-res);
-  
+  margin-right: 5px;
 }
 
 .header__menu{

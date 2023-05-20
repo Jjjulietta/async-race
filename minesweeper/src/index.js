@@ -64,7 +64,15 @@ const flag = document.createElement('span');
 flag.classList.add('header__icon');
 flag.innerHTML = '&#128681;';
 minesCount.append(flag);
-
+const flagCount = document.createElement('span');
+flagCount.classList.add('mines__count');
+flagCount.innerHTML = `${inputBombsCount.value}`;
+let flagNumber = inputBombsCount.value;
+minesCount.append(flagCount);
+const mine = document.createElement('span');
+mine.classList.add('header__icon');
+mine.innerHTML = '&#128163;';
+minesCount.append(mine);
 const bombCount = document.createElement('span');
 bombCount.classList.add('mines__count');
 bombCount.innerHTML = `${inputBombsCount.value}`;
@@ -287,22 +295,22 @@ th[1].innerHTML = 'time game';
 
 /* ------------------------SAVE WIN------------------------ */
 
-let resultObj = {};
+let resultsArr = [];
 
 function setLocalStorageRes() {
-  localStorage.setItem('resultObj', JSON.stringify(resultObj));
+  localStorage.setItem('resultsArr', JSON.stringify(resultsArr));
 
 }
 
 function getLocalStorageRes() {
-  if (localStorage.getItem('resultObj')) {
-    resultObj = JSON.parse(localStorage.getItem('resultObj'));
+  if (localStorage.getItem('resultsArr')) {
+    resultsArr = JSON.parse(localStorage.getItem('resultsArr'));
   }
 }
 
 results.addEventListener('click', () => {
   getLocalStorageRes();
-  let keys = Object.keys(resultObj);
+ /* let keys = Object.keys(resultObj);
   let values = Object.values(resultObj);
   if (keys.length === 11) {
     console.log(resultObj[keys[0]]);
@@ -310,13 +318,15 @@ results.addEventListener('click', () => {
     setLocalStorageRes(); console.log(resultObj); 
     keys = Object.keys(resultObj);
     values = Object.values(resultObj);
-  } 
+  } */
   let tr = document.querySelectorAll('tr');
   [...tr].forEach((item, index) => {
-    if (item.firstChild.tagName === 'TD') {item.firstChild.innerHTML = values[index-1];} 
+    if (item.firstChild.tagName === 'TD') {
+      if(!resultsArr[index-1]) { item.firstChild.innerHTML = '-';} else {
+      item.firstChild.innerHTML = resultsArr[index-1][0];} }
     if (item.lastChild.tagName === 'TD') {
-    
-    item.lastChild.innerHTML = keys[index - 1]}
+      if(!resultsArr[index-1]) { item.lastChild.innerHTML = '-';} else {
+    item.lastChild.innerHTML = resultsArr[index-1][1]}}
   }
   )
   popap.classList.add('popap__open');
@@ -348,6 +358,8 @@ inputBombsCount.addEventListener('change', () => {
 // console.log(inputBombsCount.value)
   bombCount.innerHTML = `${inputBombsCount.value}`;
   minesNumber = bombCount.innerHTML;
+  flagCount.innerHTML = `${inputBombsCount.value}`;
+  flagNumber = flagCount.innerHTML;
   mines = field.getMines(minesNumber);
 });
 
@@ -463,7 +475,13 @@ function clickField(event) {
 }
 
 function winGame() {
-  resultObj[time.innerHTML] = select.value;
+  getLocalStorageRes();
+  let winArr = [];
+  winArr.push(select.value);
+  winArr.push(time.innerHTML);
+  resultsArr.push(winArr);
+  if(resultsArr.length > 10) {resultsArr.splice(0, 1)}
+  //resultObj[time.innerHTML] = select.value;
   setLocalStorageRes();
   popapWin.innerHTML = `Hooray! You found all mines in ${counter} seconds and ${count.innerHTML} moves!`;
   let src = './sounds/win.wav';
@@ -477,7 +495,7 @@ function winGame() {
   time.innerHTML = '0'.padStart(3, 0);
   count.innerHTML = '0';
 
-  return resultObj;
+  return resultsArr;
 }
 
 function fallGame(buttons, value) {
@@ -519,21 +537,26 @@ function changeLevel(fieldLevel, buttons) {
 }
 
 function markMine(event) {
+  console.log(flagNumber);
   let { target } = event;
   if (target.tagName !== 'BUTTON') { console.log(target); return; }
   event.preventDefault();
   if (target.disabled === true) { return; }
   let indexButton = [...buttons].indexOf(target);
+  if (flagNumber === 0) { return; }
   if (mines.includes(indexButton)) {
     // console.log(minesNumber);
     minesNumber -= 1;
     bombCount.innerHTML = minesNumber;
+    
   }
   let src = './sounds/start.wav';
   playMusic(src);
   if (sound.classList.contains('close')) {
     music.muted = true;
   }
+  flagNumber -= 1;
+  flagCount.innerHTML = flagNumber;
   target.disabled = true;
   target.innerHTML = '&#128681;';
 }
@@ -555,7 +578,7 @@ fieldLevel.addEventListener('contextmenu', (event) => {
 select.addEventListener('change', () => {
   playLevel = '';
   playLevel = select.value;
-  // console.log(playLevel)
+  console.log(playLevel)
   widthField = level[`${playLevel}`].width;
   heigthField = level[`${playLevel}`].heigth;
   field = new Field(widthField, heigthField);
@@ -571,8 +594,17 @@ select.addEventListener('change', () => {
   mainContainer.append(fieldLevel);
   bombCount.innerHTML = `${inputBombsCount.value}`;
   minesNumber = bombCount.innerHTML;
+  flagCount.innerHTML = `${inputBombsCount.value}`;
+  flagNumber = flagCount.innerHTML;
   mines = field.getMines(minesNumber);
-  // console.log(mines);
+  console.log(mines);
+  window.clearInterval(window.timer);
+  time.innerHTML = '0'.padStart(3, 0);
+  counter = 0;
+  countClick = 0;
+
+  count.innerHTML = `${countClick}`;
+
 
   fieldLevel.addEventListener('click', (event) => {
     clickFieldSelect(event);
@@ -644,7 +676,7 @@ function clickFieldSelect(event) {
     if (mines.includes(indexButton)) {
       // console.log(mines.includes(indexButton))
       mines = checkMinesLevel(indexButton, field);
-      // console.log(mines);
+      console.log(mines);
     } mines = mines;
     elemenField(indexButton, mines, field);
   } if (checkEmpty(buttons, mines)) {
@@ -670,6 +702,8 @@ function save() {
   buttons = document.querySelectorAll('button');
   let obj = {};
   obj.playType = select.value;
+  obj.flagNumber = flagCount.innerHTML;
+  obj.minesCount = bombCount.innerHTML;
   obj.minesNumber = inputBombsCount.value;
   obj.timeGame = time.innerHTML;
   obj.countGame = count.innerHTML;
@@ -689,6 +723,8 @@ continueGame.addEventListener('click', () => {
   playLevel = savedGame.playType;
   select.value = savedGame.playType;
   inputBombsCount.value = savedGame.minesNumber;
+  flagCount.innerHTML = saveGame.flagNumber;
+  bombCount.innerHTML = saveGame.minesCount;
   count.innerHTML = savedGame.countGame;
   time.innerHTML = savedGame.timeGame;
   mines = savedGame.minesIndex.slice(0);
@@ -741,6 +777,8 @@ let buttons = document.querySelectorAll('button');
 changeLevel(fieldLevel, buttons);
 bombCount.innerHTML = `${inputBombsCount.value}`;
 minesNumber = bombCount.innerHTML;
+flagCount.innerHTML = `${inputBombsCount.value}`;
+flagNumber = flagCount.innerHTML;
 mines = field.getMines(minesNumber);
 //console.log(mines)
 window.clearInterval(window.timer);
