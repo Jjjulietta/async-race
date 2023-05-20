@@ -537,7 +537,7 @@ function changeLevel(fieldLevel, buttons) {
 }
 
 function markMine(event) {
-  console.log(flagNumber);
+ // console.log(flagNumber);
   let { target } = event;
   if (target.tagName !== 'BUTTON') { console.log(target); return; }
   event.preventDefault();
@@ -723,10 +723,14 @@ continueGame.addEventListener('click', () => {
   playLevel = savedGame.playType;
   select.value = savedGame.playType;
   inputBombsCount.value = savedGame.minesNumber;
-  flagCount.innerHTML = saveGame.flagNumber;
-  bombCount.innerHTML = saveGame.minesCount;
-  count.innerHTML = savedGame.countGame;
+  flagCount.innerHTML = savedGame.flagNumber;
+  bombCount.innerHTML = savedGame.minesCount;
+  minesNumber = bombCount.innerHTML;
+  flagNumber = flagCount.innerHTML;
+  //count.innerHTML = savedGame.countGame;
+
   time.innerHTML = savedGame.timeGame;
+  counter = + time.innerHTML;
   mines = savedGame.minesIndex.slice(0);
   widthField = level[`${playLevel}`].width;
   heigthField = level[`${playLevel}`].heigth;

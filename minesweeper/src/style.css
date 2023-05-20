@@ -50,6 +50,20 @@ width: 100%;
   --shadow-bg: rgb(94, 80, 139);
 }
 
+.dark-mode{
+  --text-color: rgb(75, 73, 77);
+  --header-bg-color: rgb(75, 73, 77);
+  --header-bg-select: rgb(214, 214, 182);
+  --btn-border: rgb(211, 211, 153);
+  --main-bg-color: rgb(88, 89, 90);
+  --button-bg-color:  rgb(154, 156, 158);
+  --menu-header-bg: rgb(139, 156, 156);
+  --menu-bg-color: rgb(131, 151, 131);
+  --btn-bg-res: rgb(172, 204, 204);
+  --btn-bg-cont: rgb(179, 165, 151);
+ /* --shadow-bg: rgb(98, 96, 105);*/
+
+}
 
 body{
   background-color: var(--main-bg-color);
