@@ -285,6 +285,47 @@ const th = document.querySelectorAll('th');
 th[0].innerHTML = 'level';
 th[1].innerHTML = 'time game';
 
+/* ------------------------SAVE WIN------------------------ */
+
+let resultObj = {};
+
+function setLocalStorageRes() {
+  localStorage.setItem('resultObj', JSON.stringify(resultObj));
+
+}
+
+function getLocalStorageRes() {
+  if (localStorage.getItem('resultObj')) {
+    resultObj = JSON.parse(localStorage.getItem('resultObj'));
+  }
+}
+
+results.addEventListener('click', () => {
+  getLocalStorageRes();
+  let keys = Object.keys(resultObj);
+  let values = Object.values(resultObj);
+  if (keys.length === 11) {
+    delete resultObj[keys[0]];
+    setLocalStorageRes();
+  }
+  let tr = document.querySelectorAll('tr');
+  [...tr].forEach((item, index) => {
+    if (item.firstChild.tagName === 'TD') {item.firstChild.innerHTML = values[index-1];} 
+    if (item.lastChild.tagName === 'TD') {
+    
+    item.lastChild.innerHTML = keys[index - 1]}
+  }
+  )
+  popap.classList.add('popap__open');
+  popapResults.classList.add('popap__open');
+
+});
+
+popap.addEventListener('click', () => {
+  popap.classList.remove('popap__open');
+  popapResults.classList.remove('popap__open');
+});
+
 /* ---------------------END-------------------------- */
 
 /* ---------------------DEFOLT FIELD---------------------------------- */
@@ -335,7 +376,7 @@ function openElement(indexButton) {
 
   let numbers = field.openNeighbour(indexButton, mines);
   // console.log(numbers);
-  for (let i = 0; i < numbers.length; i++) {
+  for (let i = 0; i < numbers.length; i += 1) {
     openElement(numbers[i], mines, field);
   }
 }
@@ -439,7 +480,7 @@ function winGame() {
 function fallGame(buttons, value) {
   window.clearInterval(window.timer); value.innerHTML = '&#128165;';
   mines.forEach((item) => { buttons[item].innerHTML = '&#128165;'; });
-  [...buttons].forEach((item) => { item.disabled = true; }); time.innerHTML = '0'.padStart(3, 0);
+ /* [...buttons].forEach((item) => { item.disabled = true; });*/ time.innerHTML = '0'.padStart(3, 0);
   let src = './sounds/lose_minesweeper.wav';
   playMusic(src);
   if (sound.classList.contains('close')) {
@@ -494,7 +535,7 @@ function markMine(event) {
   target.innerHTML = '&#128681;';
 }
 
-/* -------------- defolt EVENTS  ------------------- */
+/* -------------- default EVENTS  ------------------- */
 
 fieldLevel.addEventListener('click', (event) => {
   // console.log(fieldLevel);
@@ -672,4 +713,15 @@ continueGame.addEventListener('click', () => {
   fieldLevel.addEventListener('contextmenu', (event) => {
     markMine(event);
   });
+});
+
+/* --------------------------------------------- */
+window.addEventListener('beforeunload', () => {
+  setLocalStorageObj();
+  setLocalStorageRes();
+});
+
+window.addEventListener('load', () => {
+  getLocalStorageObj();
+  getLocalStorageRes();
 });
