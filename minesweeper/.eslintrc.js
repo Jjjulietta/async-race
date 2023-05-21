@@ -14,5 +14,8 @@ module.exports = {
   rules: {
     'import/extensions': 'off',
     'prefer-const': 'off',
+    'no-param-reassign': 'off',
+    'prefer-destructuring': 'off',
+    'no-shadow': 'off',
   },
 };

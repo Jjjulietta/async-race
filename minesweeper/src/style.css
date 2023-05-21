@@ -460,6 +460,23 @@ td
   }
 }
 
+.popap__greeting{
+  position: relative;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s;
+  width: 400px;
+  height: 100px;
+  margin: 0 auto;
+  border-radius: 20px;
+  background-color: chartreuse;
+  text-align: center;
+  padding: 20px;
+  font-size: 30px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
 .popap__open{
   opacity: 1;
 visibility: visible;
@@ -468,3 +485,35 @@ visibility: visible;
   animation-name: open;
   animation-duration: 3s;
 }
+
+@media(min-width: 767px) {
+    
+}
+
+@media(min-width: 850px) {
+  .menu {
+    display: none;
+  }
+  .header__menu{
+    position: inherit;
+    height: auto;
+    width: auto;
+    flex-direction: row;
+    background-color: inherit;
+    flex-wrap: wrap;
+    box-shadow: inherit
+  }
+  .header__game{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+  .header__game:not(:last-child){
+    margin-right: 10px;
+  
+   }
+   .header__theme label{
+    color: var(--header-bg-select);
+   }
+  }
