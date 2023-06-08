@@ -8,8 +8,39 @@ export interface DataSourse {
     url: string;
 }
 
-export interface DataApp {
+/* export interface DataAppSource {
     status: string;
-    totalResults: number;
-    articles: DataSourse[];
+    sources: DataSourse[];
+} */
+
+export interface DataAppNews {
+    status: string;
+    totalResults?: number;
+    articles?: DataNews[];
+    sources?: DataSourse[];
+}
+
+type Sourse = {
+    [id: string]: string;
+};
+
+/* export interface DataNews {
+    author: string;
+    content: string;
+    description: string;
+    publishedAt: string;
+    source: Sourse;
+    title: string;
+    url: string;
+    urlToImage: string;
+} */
+export interface DataNews {
+    author: string;
+    content: string;
+    description: string;
+    publishedAt: string;
+    source: Sourse;
+    title: string;
+    url: string;
+    urlToImage: string;
 }
