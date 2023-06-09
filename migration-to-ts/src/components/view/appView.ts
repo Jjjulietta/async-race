@@ -20,7 +20,7 @@ export class AppView {
 
     public drawSources(data: DataAppNews): void {
         const values = data?.sources ? data?.sources : [];
-        Sources.draw(values);
+        this.sources.draw(values);
     }
 }
 

@@ -1,5 +1,6 @@
 import './news.css';
-import { ParamType, ParamLi, DataNews } from './types.js';
+import { ParamType, ParamLi } from './types.js';
+import { DataNews } from '../../../types/index';
 
 class News {
     public static draw(data: DataNews[]): void {

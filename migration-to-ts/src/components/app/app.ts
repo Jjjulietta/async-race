@@ -16,9 +16,17 @@ class App {
         const sourcesItem = document.querySelector('.sources');
         if (sourcesItem) {
             sourcesItem.addEventListener('click', (e) =>
-                AppController.getNews(e, (data: DataAppNews) => this.view.drawNews(data))
+                this.controller.getNews(e, (data?: DataAppNews) => {
+                    if (data) {
+                        this.view.drawNews(data);
+                    }
+                })
             );
-            AppController.getSources((data: DataAppNews) => this.view.drawSources(data));
+            this.controller.getSources((data?: DataAppNews) => {
+                if (data) {
+                    this.view.drawSources(data);
+                }
+            });
         }
     }
 }
