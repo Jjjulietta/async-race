@@ -33,3 +33,61 @@ footer .copyright a:hover {
 footer .copyright:before {
     content: '©';
 }
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.github{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 25%;
+    padding: 10px;
+    margin: 0 auto;
+}
+.rs-img{
+display: block;
+width: 100px;
+height: 30px;
+background-color: rgba( 50%, 50%, 50%, 0.8);
+background-image: url('../src/assets/img/rs_school_js.svg');
+background-repeat: no-repeat;
+margin-bottom: 10px;
+}
+
+.github-name {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: #fff;
+    background-image: url('../src/assets/img/github\ \(1\).png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.rs-link{
+    display: block;
+    width: inherit;
+    height: inherit;
+    transition: all 0.5s;
+}
+
+.github-link {
+    display: block;
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+    transition: all 0.5s;
+}
+
+.rs-link:hover{
+    background-color: aqua;
+    opacity: 0.3;
+}
+.github-link:hover {
+    background-color: aqua;
+    opacity: 0.3;
+
+}
