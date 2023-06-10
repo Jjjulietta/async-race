@@ -43,7 +43,7 @@ class Loader {
         console.log(url);
         Object.keys(urlOptions).forEach((key) => {
             console.log(key);
-            url += `${key}=${urlOptions[key]}`;
+            url += `${key}=${urlOptions[key]}&`;
         });
 
         console.log(url);

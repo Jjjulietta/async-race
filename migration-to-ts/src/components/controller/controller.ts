@@ -3,18 +3,19 @@ import { Endpoint, Callback } from './typesReq';
 
 class AppController extends AppLoader {
     public getSources<T>(callback: Callback<T>): void {
-        super.getResp(Endpoint.endEvery, undefined, callback);
+        super.getResp(Endpoint.endSours, undefined, callback);
     }
 
     public getNews<T>(e: Event, callback: Callback<T>): void {
         let { target } = e;
-        if (target && target instanceof HTMLDivElement) {
+        console.log(target instanceof HTMLElement);
+        if (target && target instanceof HTMLElement) {
             const newsContainer = e.currentTarget;
             if (newsContainer) {
-                while (target && target instanceof HTMLDivElement && target !== newsContainer) {
+                while (target && target instanceof HTMLElement && target !== newsContainer) {
                     if (target.classList.contains('source__item')) {
                         const sourceId = target.getAttribute('data-source-id');
-                        if (newsContainer instanceof HTMLDivElement) {
+                        if (newsContainer instanceof HTMLElement) {
                             if (newsContainer.getAttribute('data-source') !== sourceId) {
                                 if (sourceId) {
                                     newsContainer.setAttribute('data-source', sourceId);
