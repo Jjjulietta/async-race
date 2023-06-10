@@ -3,12 +3,14 @@ import { DataSourse } from '../../../types/index';
 
 class Sources {
     public draw(data: DataSourse[]): void {
+        console.log(data);
         const fragment = document.createDocumentFragment();
         const sourceItemTemp: HTMLTemplateElement | null = document.querySelector('#sourceItemTemp');
+        console.log(sourceItemTemp);
         if (sourceItemTemp instanceof HTMLTemplateElement) {
             data.forEach((item) => {
                 const sourceClone = sourceItemTemp.content.cloneNode(true);
-                if (sourceClone instanceof HTMLElement) {
+                if (sourceClone instanceof DocumentFragment) {
                     const sourceName: HTMLDivElement | null = sourceClone.querySelector('.source__item-name');
                     if (sourceName) sourceName.textContent = item.name;
                     const sourceItem = sourceClone.querySelector('.source__item');
