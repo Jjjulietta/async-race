@@ -3,6 +3,10 @@ body {
     background: #17181c;
     font-family: sans-serif;
 }
+main {
+    width: auto;
+    padding: 20px 0px;
+}
 
 header {
     padding: 10px 30px;
@@ -11,6 +15,26 @@ header {
 header h1 {
     font-size: 40px;
     font-weight: 800;
+}
+
+.checkbox__news{
+    padding: 10px;
+
+}
+.label__category {
+    color: yellow;
+    font-weight: 600;
+    line-height: 1em;
+    text-decoration: underline;
+    transition: all 0.5s;
+    cursor: pointer;
+}
+
+
+.label__category:hover{
+    border-color: #3fcc59;
+    color: #69db7e;
+    box-shadow: 0 0.5em 0.5em -0.4em #3fcc59;
 }
 
 footer {
@@ -43,7 +67,7 @@ footer .copyright:before {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 25%;
+    width: 30%;
     padding: 10px;
     margin: 0 auto;
 }
@@ -91,3 +115,24 @@ margin-bottom: 10px;
     opacity: 0.3;
 
 }
+
+.display__none {
+    display: none;
+}
+
+@media (max-width:640px) {
+    .footer {
+        min-height: auto;
+        justify-content: space-between;
+    }
+    .github {
+        width: 50%;
+    }
+    }
+    @media (max-width:440px) {
+        .github {
+            flex-direction: column;
+            justify-content: space-between;
+            width: 50%;
+        }
+        }

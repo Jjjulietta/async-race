@@ -18,8 +18,7 @@ class News {
                 }
                 if (newsClone instanceof DocumentFragment) {
                     const newsMetaPhoto: ParamType = newsClone?.querySelector('.news__meta-photo');
-                    if (newsMetaPhoto)
-                        newsMetaPhoto.style.backgroundImage = `url(${item.urlToImage || 'img/news_placeholder.jpg'})`;
+                    if (newsMetaPhoto) newsMetaPhoto.style.backgroundImage = `url(${item.urlToImage})`;
                 }
                 if (newsClone instanceof DocumentFragment) {
                     const newsMetaAuthor: ParamLi = newsClone?.querySelector('.news__meta-author');
