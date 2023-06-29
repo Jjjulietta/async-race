@@ -197,7 +197,12 @@ export class Level {
     const objLevel = arrTabEl[Number(num) - 1];
     this.level.append('<div class="table">');
     objLevel.elem.forEach((item) => {
-      const el = document.createElement('div');
+      const div = document.createElement('div');
+      const pre = document.createElement('pre');
+      const el = document.createElement('code');
+      el.classList.add('language-html');
+      div.append(pre);
+      pre.append(el);
       el.setAttribute('data-hovered', `${item.name}${item.col}`);
       if (!item.child && !item.nesting) {
         if (item.class) { el.textContent = item.obj.nameClass; } else
@@ -225,7 +230,7 @@ export class Level {
             }); console.log(el); el.append(elChild);
           });
         } el.append(item.obj.tagClosed);
-      } this.level.append(el);
+      } this.level.append(pre);
     }); this.level.append('</div>');
     return this.level;
   }
