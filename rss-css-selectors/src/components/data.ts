@@ -53,7 +53,7 @@ export const arrTabEl = [{
 {
   level: '3',
   title: 'Select the carrot',
-  help: 'carrot',
+  help: 'plate carrot',
   elem: [{
     name: plate.name, col: 'One', checked: false, nesting: 0, child: [carrot], class: 0, id: 0, obj: plate,
   },
@@ -61,7 +61,7 @@ export const arrTabEl = [{
     name: carrot.name, col: 'One', checked: true, nesting: `${plate.name}One`, child: 0, class: 0, id: 0, obj: carrot,
   },
   {
-    name: carrot.name, col: 'Two', checked: true, nesting: 0, child: 0, class: 0, id: 0, obj: carrot,
+    name: carrot.name, col: 'Two', checked: false, nesting: 0, child: 0, class: 0, id: 0, obj: carrot,
   }],
 },
 {
@@ -98,7 +98,7 @@ export const arrTabEl = [{
 {
   level: '6',
   title: 'Select the orange on the colored plate',
-  help: '#colored carrot',
+  help: '#colored orange',
   elem: [{
     name: plate.name, col: 'One', checked: false, nesting: 0, child: [orange], class: 0, id: 0, obj: plate,
   },
@@ -174,10 +174,10 @@ export const arrTabEl = [{
 },
 {
   level: '10',
-  title: 'Select all the elements',
-  help: 'div *',
+  title: 'Select all the elements after doily',
+  help: 'doily ~ *',
   elem: [{
-    name: doily.name, col: 'One', checked: true, nesting: 0, child: 0, class: 0, id: 0, obj: doily,
+    name: doily.name, col: 'One', checked: false, nesting: 0, child: 0, class: 0, id: 0, obj: doily,
   },
   {
     name: plate.name, col: 'One', checked: true, nesting: 0, child: [apple], class: 0, id: 0, obj: plate,
