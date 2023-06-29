@@ -90,4 +90,17 @@ export class BlockOne {
     logo.append(logoLine);
     return header;
   }
+
+  public static createPopap(): HTMLElement {
+    const popap = document.createElement('div');
+    popap.classList.add('popap');
+    const popapBody = document.createElement('div');
+    popapBody.classList.add('popap-body');
+    const popapContent = document.createElement('div');
+    popapContent.classList.add('popap-content');
+    popap.append(popapBody);
+    popapBody.append(popapContent);
+    popapContent.innerHTML = 'Сongratulations! you have successfully completed all levels!';
+    return popap;
+  }
 }
