@@ -99,17 +99,11 @@ while (i > 0) {
 const buttonReset = LevelBlock.createButton();
 levelBlock.append(buttonReset);
 
+const popap = BlockOne.createPopap();
+body?.append(popap);
+
 const level = new Level();
 const table = new TableGenerator();
-// const img = tablecloth.innerHTML;
-// windowHtML.append(level.getLevelOne());
-// windowMainHTML.append(level.getLevelTwo());
-// windowHtML.append(level.getLevelThree());
-/* function checkValue(value:string):boolean {
-  const element = tablecloth.querySelector(value);
-  if (element) return true;
-  return false;
-} */
 
 // eslint-disable-next-line consistent-return, max-lines-per-function
 levelBlock.addEventListener('click', (e) => {
@@ -121,6 +115,8 @@ levelBlock.addEventListener('click', (e) => {
       e.target.classList.add('active');
       e.target.previousElementSibling?.classList.add('active');
       const num = e.target.innerHTML;
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      setLocaleStorage(num);
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       checkLevel(num);
     }
@@ -184,19 +180,8 @@ windowMainHTML.addEventListener('mouseout', (e) => {
   }
 });
 
-buttonReset.addEventListener('click', () => {
-  const activesLevel = levelBlock.querySelectorAll('.passed');
-  const activeEl = document.querySelectorAll('.active');
-  activeEl?.forEach((item) => item.classList.remove('active'));
-  console.log(activesLevel);
-  activesLevel.forEach((item) => {
-    item.classList.remove('passed');
-  });
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  checkLevel('1');
-  headerLevel.nextElementSibling?.firstElementChild?.classList.add('active');
-  headerLevel.nextElementSibling?.lastElementChild?.classList.add('active');
-});
+// eslint-disable-next-line @typescript-eslint/no-use-before-define
+buttonReset.addEventListener('click', reset);
 
 buttonReset.addEventListener('mousedown', () => {
   buttonReset.classList.add('click');
@@ -205,6 +190,25 @@ buttonReset.addEventListener('mousedown', () => {
 buttonReset.addEventListener('mouseup', () => {
   buttonReset.classList.remove('click');
 });
+
+function reset():void {
+  const activesLevel = levelBlock.querySelectorAll('.passed');
+  const activeEl = document.querySelectorAll('.active');
+  const helps = levelBlock.querySelectorAll('.help');
+  // eslint-disable-next-line no-return-assign, no-param-reassign
+  helps?.forEach((item) => item.outerHTML = '');
+  activeEl?.forEach((item) => item.classList.remove('active'));
+  console.log(activesLevel);
+  activesLevel.forEach((item) => {
+    item.classList.remove('passed');
+  });
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  checkLevel('1');
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  setLocaleStorage('1');
+  headerLevel.nextElementSibling?.firstElementChild?.classList.add('active');
+  headerLevel.nextElementSibling?.lastElementChild?.classList.add('active');
+}
 
 function createTooltip(element: HTMLElement): void {
   const idName = element.getAttribute('id');
@@ -238,10 +242,6 @@ function createTooltip(element: HTMLElement): void {
 // eslint-disable-next-line @typescript-eslint/no-use-before-define
 button.addEventListener('click', checkInput);
 
-tablecloth.addEventListener('animationend', () => {
-  tablecloth.classList.remove('false');
-});
-
 document.addEventListener('keypress', (e) => {
   if (e.code === 'Enter' && input.value) {
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
@@ -252,7 +252,10 @@ document.addEventListener('keypress', (e) => {
 function checkInput(): void {
   const val = input.value;
   const elements = tablecloth.querySelectorAll(val);
-  if (elements && Array.from(elements).every((item) => item.classList.contains('checked'))) {
+  const checked = tablecloth.querySelectorAll('.checked');
+  // console.log(checked.length);
+  console.log(elements.length);
+  if (elements && elements.length === checked.length && Array.from(elements).every((item) => item.classList.contains('checked'))) {
     elements.forEach((item) => item.classList.remove('checked'));
     elements.forEach((item) => item.classList.add('true'));
     const actives = levelBlock.querySelectorAll('.active');
@@ -260,10 +263,19 @@ function checkInput(): void {
     actives[0].parentElement?.nextElementSibling?.firstElementChild?.classList.add('active');
     actives[0].parentElement?.nextElementSibling?.lastElementChild?.classList.add('active');
     const num = actives[0].parentElement?.nextElementSibling?.lastElementChild?.innerHTML;
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    if (num) checkLevel(num);
-    input.value = '';
-  } else tablecloth.classList.add('false');
+    tablecloth.addEventListener('animationend', () => {
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      if (num) { console.log(num); setLocaleStorage(num); checkLevel(num); } else { popap.classList.add('open'); reset(); }
+    });
+  } else {
+    tablecloth.classList.add('false');
+    tablecloth.addEventListener('animationend', () => {
+      if (tablecloth.classList.contains('false')) {
+        tablecloth.classList.remove('false');
+      }
+    });
+  }
+  input.value = '';
 }
 
 interface Fn {
@@ -271,22 +283,38 @@ interface Fn {
 }
 
 help.addEventListener('click', () => {
-  const checked = document.getElementsByClassName('checked');
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  const num = getLocaleStorage();
   let text = '';
+  if (num) {
+    const objLevel = arrTabEl[Number(num) - 1];
+    text = objLevel.help;
+    const levels = levelBlock.querySelectorAll('.level-container');
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    if (levels[Number(num) - 1].lastElementChild) {
+      // console.log(levels[Number(num) - 1].lastElementChild);
+      const span = document.createElement('span');
+      span.classList.add('help');
+      span.textContent = 'help';
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      levels[Number(num) - 1].lastElementChild?.append(span);
+    }
+  }
+  /* const checked = document.getElementsByClassName('checked');
   Array.from(checked).forEach((item) => {
     console.log(item.className);
     console.log(item.tagName);
     text += item.tagName.toLocaleLowerCase();
-  });
+  }); */
   let n = 0;
   const speed = 500;
   const m = text.length;
-  console.log(text.length);
+  // console.log(text.length);
   const timer = setInterval(() => {
     if (n < m) {
-      console.log(text);
+      // console.log(text);
       // eslint-disable-next-line no-console
-      console.log(n);
+      // console.log(n);
       input.value += text.charAt(n);
       // eslint-disable-next-line no-param-reassign
       n += 1;
@@ -295,12 +323,32 @@ help.addEventListener('click', () => {
   }, speed);
 });
 
+/* tablecloth.addEventListener('animationend', () => {
+  if (tablecloth.classList.contains('false')) {
+    tablecloth.classList.remove('false');
+  }
+  if (tablecloth.classList.contains('true')) {
+    tablecloth.classList.remove('true');
+  }
+}); */
+
 window.addEventListener('load', () => {
-  title.innerHTML = 'Select the oranges';
-  windowMainHTML.append(level.getLevelUn('1'));
-  tablecloth.append(table.createTableUn('1'));
-  headerLevel.nextElementSibling?.firstElementChild?.classList.add('active');
-  headerLevel.nextElementSibling?.lastElementChild?.classList.add('active');
+  // title.innerHTML = 'Select the oranges';
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  const num = getLocaleStorage();
+  console.log(num);
+  if (num) {
+  /* windowMainHTML.append(level.getLevelUn(num));
+    tablecloth.append(table.createTableUn(num)); */
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    checkLevel(num);
+    const levels = levelBlock.querySelectorAll('.level-container');
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    levels[Number(num) - 1].firstElementChild?.classList.add('active');
+    levels[Number(num) - 1].lastElementChild?.classList.add('active');
+    /* headerLevel.nextElementSibling?.firstElementChild?.classList.add('active');
+    headerLevel.nextElementSibling?.lastElementChild?.classList.add('active'); */
+  }
 });
 
 function checkLevel(num: string): void {
@@ -316,6 +364,10 @@ function checkLevel(num: string): void {
   title.innerHTML = titleName;
   windowMainHTML.append(level.getLevelUn(num));
   tablecloth.append(table.createTableUn(num));
+  /* document.querySelectorAll('div.code').forEach(el => {
+    // then highlight each
+    hljs.highlightElement(el);
+  }) */
   /* if (num === '1') {
     title.innerHTML = 'Select the oranges';
     windowMainHTML.append(level.getLevelUn('1'));
@@ -367,4 +419,16 @@ function checkLevel(num: string): void {
     windowMainHTML.append(level.getLevelTen());
     tablecloth.append(table.createTableUn('10'));
   } */
+}
+
+function setLocaleStorage(num: string):void {
+  localStorage.setItem('num', num);
+}
+
+function getLocaleStorage(): string | null {
+  let num;
+  if (localStorage.getItem('num')) {
+    num = localStorage.getItem('num');
+  } else { num = '1'; }
+  return num;
 }
