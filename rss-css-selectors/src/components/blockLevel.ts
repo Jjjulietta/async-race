@@ -21,12 +21,6 @@ export class LevelBlock {
     const div = document.createElement('div');
     div.classList.add('mark');
     div.innerHTML = '>';
-    /* const spanLeft = document.createElement('span');
-    spanLeft.classList.add('span-left');
-    const spanRight = document.createElement('span');
-    spanRight.classList.add('span-right');
-    div.append(spanLeft);
-    div.append(spanRight); */
     return div;
   }
 

@@ -58,16 +58,18 @@ if (headerBlockHTML.lastChild && headerBlockHTML.lastChild instanceof HTMLElemen
 editorBlockCSS.append(headerBlockCSS);
 editorBlockHTML.append(headerBlockHTML);
 const winowCss = BlockEditor.createWindowBlock();
-console.log(winowCss);
 const lineBlockCss = BlockEditor.createLineBlock();
 winowCss.append(lineBlockCss);
 editorBlockCSS.append(winowCss);
 const windowMainCss = BlockEditor.createMainWindow();
 winowCss.append(windowMainCss);
+const inputBlock = document.createElement('div');
+inputBlock.classList.add('input-block');
 const input = BlockEditor.createInput();
 const button = BlockEditor.createButton();
-windowMainCss.append(input);
-windowMainCss.append(button);
+inputBlock.append(input);
+windowMainCss.append(inputBlock);
+inputBlock.append(button);
 windowMainCss.append(help);
 
 const windowHtML = BlockEditor.createWindowBlock();
@@ -126,8 +128,6 @@ levelBlock.addEventListener('click', (e) => {
 table.table.addEventListener('mouseover', (e) => {
   if (e.target instanceof HTMLElement && !e.target.classList.contains('table-gen')) {
     e.target.classList.add('hovered');
-    // const tagName = e.target.tagName.toLocaleLowerCase();
-    // const idName = e.target.getAttribute('id');
     const dataName = e.target.getAttribute('data-hovered');
     // eslint-disable-next-line no-template-curly-in-string
     const elHover = document.querySelector(`div[data-hovered=${dataName}]`);
@@ -146,7 +146,6 @@ table.table.addEventListener('mouseout', (e) => {
     elHover?.classList.remove('active');
     // console.log(e.target.firstElementChild);
     if (e.target.firstElementChild && e.target.firstElementChild.classList.contains('tooltip')) {
-      console.log(e.target.firstElementChild);
       e.target.firstElementChild.outerHTML = '';
     }
   }
@@ -155,12 +154,9 @@ table.table.addEventListener('mouseout', (e) => {
 windowMainHTML.addEventListener('mouseover', (e) => {
   if (e.target instanceof HTMLElement && !e.target.classList.contains('window-main')
    && !e.target.classList.contains('table-div')) {
-    console.log(e.target);
     const dataName = e.target.getAttribute('data-hovered');
-    console.log(dataName);
     e.target.classList.add('active');
     const elHover = tablecloth.querySelector(`[data-hovered=${dataName}]`);
-    console.log(elHover);
     elHover?.classList.add('hovered');
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     if (elHover && elHover instanceof HTMLElement) createTooltip(elHover);
@@ -174,7 +170,6 @@ windowMainHTML.addEventListener('mouseout', (e) => {
     const elHover = document.querySelector(`[data-hovered=${dataName}]`);
     elHover?.classList.remove('hovered');
     if (elHover?.firstElementChild && elHover.firstElementChild.classList.contains('tooltip')) {
-      console.log(elHover.firstElementChild);
       elHover.firstElementChild.outerHTML = '';
     }
   }
@@ -198,7 +193,6 @@ function reset():void {
   // eslint-disable-next-line no-return-assign, no-param-reassign
   helps?.forEach((item) => item.outerHTML = '');
   activeEl?.forEach((item) => item.classList.remove('active'));
-  console.log(activesLevel);
   activesLevel.forEach((item) => {
     item.classList.remove('passed');
   });
@@ -213,7 +207,6 @@ function reset():void {
 function createTooltip(element: HTMLElement): void {
   const idName = element.getAttribute('id');
   const tagName = element.tagName.toLocaleLowerCase();
-  // const calssName = element.className;
   const tooltip = document.createElement('span');
   tooltip.classList.add('tooltip');
   element.prepend(tooltip);
@@ -253,8 +246,6 @@ function checkInput(): void {
   const val = input.value;
   const elements = tablecloth.querySelectorAll(val);
   const checked = tablecloth.querySelectorAll('.checked');
-  // console.log(checked.length);
-  console.log(elements.length);
   if (elements && elements.length === checked.length && Array.from(elements).every((item) => item.classList.contains('checked'))) {
     elements.forEach((item) => item.classList.remove('checked'));
     elements.forEach((item) => item.classList.add('true'));
@@ -265,7 +256,7 @@ function checkInput(): void {
     const num = actives[0].parentElement?.nextElementSibling?.lastElementChild?.innerHTML;
     tablecloth.addEventListener('animationend', () => {
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      if (num) { console.log(num); setLocaleStorage(num); checkLevel(num); } else { popap.classList.add('open'); reset(); }
+      if (num) { setLocaleStorage(num); checkLevel(num); } else { popap.classList.add('open'); reset(); }
     });
   } else {
     tablecloth.classList.add('false');
@@ -276,10 +267,6 @@ function checkInput(): void {
     });
   }
   input.value = '';
-}
-
-interface Fn {
-  (): void;
 }
 
 help.addEventListener('click', () => {
@@ -300,21 +287,11 @@ help.addEventListener('click', () => {
       levels[Number(num) - 1].lastElementChild?.append(span);
     }
   }
-  /* const checked = document.getElementsByClassName('checked');
-  Array.from(checked).forEach((item) => {
-    console.log(item.className);
-    console.log(item.tagName);
-    text += item.tagName.toLocaleLowerCase();
-  }); */
   let n = 0;
   const speed = 500;
   const m = text.length;
-  // console.log(text.length);
   const timer = setInterval(() => {
     if (n < m) {
-      // console.log(text);
-      // eslint-disable-next-line no-console
-      // console.log(n);
       input.value += text.charAt(n);
       // eslint-disable-next-line no-param-reassign
       n += 1;
@@ -323,35 +300,20 @@ help.addEventListener('click', () => {
   }, speed);
 });
 
-/* tablecloth.addEventListener('animationend', () => {
-  if (tablecloth.classList.contains('false')) {
-    tablecloth.classList.remove('false');
-  }
-  if (tablecloth.classList.contains('true')) {
-    tablecloth.classList.remove('true');
-  }
-}); */
-
 window.addEventListener('load', () => {
-  // title.innerHTML = 'Select the oranges';
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   const num = getLocaleStorage();
-  console.log(num);
   if (num) {
-  /* windowMainHTML.append(level.getLevelUn(num));
-    tablecloth.append(table.createTableUn(num)); */
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     checkLevel(num);
     const levels = levelBlock.querySelectorAll('.level-container');
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     levels[Number(num) - 1].firstElementChild?.classList.add('active');
     levels[Number(num) - 1].lastElementChild?.classList.add('active');
-    /* headerLevel.nextElementSibling?.firstElementChild?.classList.add('active');
-    headerLevel.nextElementSibling?.lastElementChild?.classList.add('active'); */
   }
 });
 
-function checkLevel(num: string): void {
+export function checkLevel(num: string): void {
   if (windowMainHTML.firstElementChild) {
     windowMainHTML.firstElementChild.innerHTML = '';
   }
@@ -364,61 +326,6 @@ function checkLevel(num: string): void {
   title.innerHTML = titleName;
   windowMainHTML.append(level.getLevelUn(num));
   tablecloth.append(table.createTableUn(num));
-  /* document.querySelectorAll('div.code').forEach(el => {
-    // then highlight each
-    hljs.highlightElement(el);
-  }) */
-  /* if (num === '1') {
-    title.innerHTML = 'Select the oranges';
-    windowMainHTML.append(level.getLevelUn('1'));
-    tablecloth.append(table.createTableUn('1'));
-  }
-  if (num === '2') {
-    title.innerHTML = 'Select the orange';
-    windowMainHTML.append(level.getLevelUn('2'));
-    tablecloth.append(table.createTableUn('2'));
-  }
-  if (num === '3') {
-    title.innerHTML = 'Select the carrot';
-    windowMainHTML.append(level.getLevelUn('3'));
-    tablecloth.append(table.createTableUn('3'));
-  }
-  if (num === '4') {
-    title.innerHTML = 'Select the small orange';
-    windowMainHTML.append(level.getLevelUn('4'));
-    tablecloth.append(table.createTableUn('4'));
-  }
-  if (num === '5') {
-    title.innerHTML = 'Select all the things on the plates';
-    windowMainHTML.append(level.getLevelUn('5'));
-    tablecloth.append(table.createTableUn('5'));
-  }
-  if (num === '6') {
-    title.innerHTML = 'Select the orange on the colored plate';
-    windowMainHTML.append(level.getLevelSix());
-    tablecloth.append(table.createTableUn('6'));
-  }
-  if (num === '7') {
-    title.innerHTML = 'Select all the small oranges';
-    windowMainHTML.append(level.getLevelSeven());
-    tablecloth.append(table.createTableUn('7'));
-  }
-  if (num === '8') {
-    title.innerHTML = 'Select the carrot at the orange';
-    windowMainHTML.append(level.getLevelEight());
-    tablecloth.append(table.createTableUn('8'));
-  }
-  if (num === '9') {
-    title.innerHTML = 'Select all the carrots';
-    windowMainHTML.append(level.getLevelNine());
-    tablecloth.append(table.createTableUn('9'));
-  }
-
-  if (num === '10') {
-    title.innerHTML = 'Select all the elements';
-    windowMainHTML.append(level.getLevelTen());
-    tablecloth.append(table.createTableUn('10'));
-  } */
 }
 
 function setLocaleStorage(num: string):void {
