@@ -142,3 +142,9 @@ color: blueviolet;
     visibility: visible;
   }
 }
+
+@media(max-width: 650px) {
+  .mainblock {
+    font-size: 12px;
+  }
+}
