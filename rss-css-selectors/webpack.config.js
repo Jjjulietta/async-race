@@ -34,7 +34,7 @@ module.exports = {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
       },
-      { test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
+      { test: /\.(woff(2)?|eot|ttf|otf)$/,
         type: 'asset/inline'},
       {
         test: /\.(css)$/,
