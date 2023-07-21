@@ -1,0 +1,147 @@
+input[type='text'] {
+  width: 40%;
+  height: 12px;
+}
+input[type='color'] {
+  width: 15%;
+  height: 20px;
+  padding: 0px;
+}
+
+.cars-num {
+  margin-left: 5px;
+}
+.garage-title {
+  margin-bottom: 5px;
+}
+.garage-titlePage {
+  margin-bottom: 10px;
+}
+.header-garage {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: stretch;
+  margin-bottom: 15px;
+  width: fit-content;
+}
+
+form {
+  margin-bottom: 5px;
+}
+.buttons-block {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.buttons-block button {
+  width: fit-content;
+  padding: 0px 10px;
+}
+form button {
+  background-color: rgba(113, 108, 209, 0.5);
+}
+input {
+  margin-right: 15px;
+}
+
+button {
+  background-color:rgba(27, 26, 46, 0.5);
+  border: 2px solid rgba(248, 232, 4, 0.5);
+  box-shadow: 0 0 1px 1px rgb(34, 15, 88);
+  color:azure;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: gold;
+  border: 2px solid rgba(57, 4, 248, 0.5);
+  box-shadow: 0 2px 1px 1px violet;
+  color: rgb(34, 15, 88);
+}
+button:disabled {
+  background-color: gray;
+}
+
+
+button:disabled:hover {
+  cursor: not-allowed;
+  background-color: gray;
+}
+.car-block {
+  height: auto;
+  height: 80px;
+}
+
+.rase-block {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px gold dotted;
+}
+
+.rase-buttons {
+  display: flex;
+  justify-content: initial;
+  margin: 10px 0px;
+  width: 20px;
+  height: 20px;
+}
+.rase-buttons button {
+
+  box-shadow: 1px 2px 1px 1px gold;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.rase-buttons button:hover {
+  background-color: gold;
+  box-shadow: 2px 5px 1px 1px blueviolet;
+  color: blueviolet;
+}
+
+.rase-buttons button:disabled :hover {
+  cursor: not-allowed;
+  background-color: gray;
+}
+
+.flag {
+  justify-self:flex-end;
+  width: 50px;
+  height: 50px;
+  background-image: url('../../../assets/flag.svg');
+  background-repeat: no-repeat;
+  background-size: 70%;
+  margin-right: 50px;
+}
+
+
+.img-auto {
+  object-fit:fill;
+  /*width: 40px; */
+  height: 0px;
+  color: currentColor;
+}
+
+.car-name {
+  margin-left: 10px;
+}
+
+.car {
+  transform: rotateY(180deg);
+  /*fill:blue;*/
+  /* transform: rotateY(180deg); */
+}
+
+.buttons-change {
+  margin: 20px 0px;
+}
+
+.buttons-change button {
+  background-color: rgb(22, 9, 56);
+  box-shadow: 1px 1px gold;
+  padding: 5px;
+  cursor: pointer;
+
+}
