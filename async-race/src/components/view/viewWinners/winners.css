@@ -1,0 +1,16 @@
+.table-winners{
+  width:40% ;
+  margin-bottom: 20px;
+}
+th, td {
+  background-color: rgba(24, 7, 68, 0.5);
+  padding: 5px;
+  border: 1px solid gold;
+  font-weight: 300;
+  color: rgb(221, 15, 228);
+  text-align: center;
+}
+
+button:disabled {
+  background-color: gray;
+}
