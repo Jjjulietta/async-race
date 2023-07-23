@@ -58,6 +58,41 @@ export function sendReq (arg: Arguments): void {
   })
 }
 
+export function deleteCar (arg: Arguments, id: string | number): void {
+  const loader = new Loader(`${arg.url}`, { method: `${arg.method}` })
+  loader.getRespRr((response) => {
+    console.log(response)
+    if (response === 200) {
+      const urlsThree = `${url}${Path.winners}/${id}`
+      const newLoader = new Loader(urlsThree, { method: 'GET' })
+      newLoader.getResp((data?: Winners) => {
+        if (data?.id === +`${id}`) {
+          console.log(data?.id === +`${id}`)
+          const loaderTwo = new Loader(urlsThree, { method: 'DELETE' })
+          loaderTwo.getRespRr((resp) => {
+            if (resp === 200) {
+              const table = document.querySelector('table')
+              console.log(table)
+            }
+          })
+        }
+      })
+      /* const idStr = `Num${data.id}`
+        const carBlock = document.querySelector(`[data-id = ${idStr}]`)
+        carBlock?.remove()
+      } */
+      /*  if (arg.method === 'GET' && data instanceof Array) {
+        data.forEach((item) => {
+
+        })
+        const blockCar = new AutoBlockGenerator(data).getAutoBlock()
+        const garage = document.querySelector('.garage-page')
+        if (garage != null) { garage.append(blockCar) }
+      } */
+    }
+  })
+}
+
 export function submitForm (arg: Arguments): void {
   arg.form?.addEventListener('submit', (e: Event) => {
     e.preventDefault()
@@ -103,9 +138,22 @@ export function sendForm (arg: Arguments): void {
   })
 }
 
-export function removeCar (arg: Arguments): void {
-  sendReq(arg)
+export function removeCar (arg: Arguments, id: string | number): void {
+  deleteCar(arg, id)
   countCars()
+}
+
+export function createPopap (model: string): HTMLElement {
+  const popap = document.createElement('div')
+  popap.classList.add('popap')
+  const popapBody = document.createElement('div')
+  popapBody.classList.add('popap-body')
+  const popapContent = document.createElement('div')
+  popapContent.classList.add('popap-content')
+  popapBody.append(popapContent)
+  popapContent.innerHTML = `${model} wins!`
+  popap.append(popapBody)
+  return popap
 }
 
 /* export function rase (arg: Arguments, id: number, element: HTMLElement, coord: number): void {
@@ -190,6 +238,7 @@ export function raseThree (el: element, id: number): void {
   console.log(el)
   const img = el?.querySelector('.img-auto')
   const flag = el?.querySelector('.flag')
+  const carName = el?.querySelector('.car-name')
   if (flag instanceof HTMLElement) {
     const coordFlag = flag.offsetLeft - 40
     const urls = `${url}${Path.engine}?id=${id}&status=started`
@@ -221,10 +270,16 @@ export function raseThree (el: element, id: number): void {
               window.cancelAnimationFrame(animId)
             } else if (response === 200 && !winner) {
               console.log(id)
+              if (carName != null) {
+                const popapWin = createPopap(carName.innerHTML)
+                document.body.append(popapWin)
+                popapWin.classList.add('open')
+              }
               const pos = img.getBoundingClientRect().left
               console.log(pos)
               const d = Math.round(duration / 1000)
               console.log(d)
+              console.log(winner)
               winner = true
               checkWin(id, d)
             }
@@ -392,7 +447,8 @@ export function stopCars (id: number): void {
         window.cancelAnimationFrame(animId)
         img.style.transform = `translateX(${0}px)`
         console.log(winner)
-        if (winner) winner = false
+        winner = true
+        // if (winner) winner = false
         /* const coordFlag = 0
         const currentPositions = img.getBoundingClientRect().left
         animate(data?.velocity, data.distance, img, currentPositions, coordFlag) */
@@ -555,6 +611,7 @@ export function removeDisabled (): void {
   buttonsStart?.forEach((item) => {
     item.removeAttribute('disabled')
   })
+  if (winner) winner = false
 }
 
 let sortWin = 'desc'
