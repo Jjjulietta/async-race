@@ -11,7 +11,7 @@ module.exports = {
      directory: path.join(__dirname, 'public')
    }
   },
-  entry: './src/index.js',
+  entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -23,9 +23,9 @@ module.exports = {
         test: /\.html$/,
         use: [{
           loader: 'html-loader',
-          options: {
+          /*options: {
             minimize: false
-          }
+          } */
         }]
       },
       {
@@ -35,7 +35,7 @@ module.exports = {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
       },
-      { test: /\.(woff(2)?|eot|ttf|otf)$/,
+      { test: /\.(woff(2)?|eot|ttf|otf|svg)$/,
         type: 'asset/inline'},
       {
         test: /\.(css)$/,
