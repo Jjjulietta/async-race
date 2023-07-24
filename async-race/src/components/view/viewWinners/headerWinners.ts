@@ -4,7 +4,7 @@ import { Path } from '../../types'
 import { ElementCreator } from '../../elemCreate'
 import { ElementCreatorButton } from '../../elemCreateButton'
 import './winners.css'
-import { countWinners, sortWinners } from '../../callbacks'
+import { countWinners, setLocaleStorage, sortWinners } from '../../callbacks'
 
 const url = 'http://127.0.0.1:3000'
 
@@ -19,9 +19,9 @@ export class WinnersView {
   public buttonNext: element
   public buttonPrev: element
   public blockChangePages: element
+  public numberPages: number
   // public row: HTMLElement
   constructor () {
-    const carsNum = 4
     let numPages = 1
     const paramsView: Params = {
       tag: 'div',
@@ -51,24 +51,14 @@ export class WinnersView {
       className: 'page-numwin',
       text: `#${numPages}`
     }
-    const paramsTable: Table = {
-      tag: 'table',
-      className: 'table-winners',
-      tagTR: 'tr',
-      tagTD: 'td',
-      tagTH: 'th',
-      numCol: 5
-    }
     const paramblockChangeView: Params = {
       tag: 'div',
       className: 'buttons-change'
     }
-
+    this.numberPages = numPages
     this.viewWinners = ElementCreator.createElement(paramsView)
     this.winnersBlock = ElementCreator.createElement(paramsWinners)
     this.titleWinners = ElementCreator.createElement(paramsTitle)
-    // this.winnersTable = ElementCreator.createTable(paramsTable)
-    // this.row = ElementCreator.createRow(paramsRow)
     this.numberWinners = ElementCreator.createElement(paramsNumTitle)
     this.page = ElementCreator.createElement(paramsPage)
     this.numberPage = ElementCreator.createElement(paramsNumPage)
@@ -78,23 +68,27 @@ export class WinnersView {
     this.buttonPrev = new ElementCreatorButton('PREV').getButton('prev')
     this.buttonPrev.setAttribute('disabled', 'disabled')
     this.blockChangePages.append(this.buttonPrev, this.buttonNext)
-    // this.winnersBlock.after(this.blockChangePages)
     this.buttonPrev.setAttribute('disabled', 'disabled')
     this.page.append(this.numberPage)
     this.buttonNext.addEventListener('click', () => {
       this.winnersBlock.innerHTML = ''
       if (this.buttonPrev.hasAttribute('disabled')) this.buttonPrev.removeAttribute('disabled')
       numPages += 1
-      console.log(numPages)
       this.createWinners(numPages)
+      setLocaleStorage(String(numPages))
     })
     this.buttonPrev.addEventListener('click', () => {
-      console.log(numPages)
-      if (numPages > 1) {
+      if (numPages > 2) {
         this.winnersBlock.innerHTML = ''
         numPages -= 1
         this.createWinners(numPages)
+      } else if (numPages === 2) {
+        this.winnersBlock.innerHTML = ''
+        numPages -= 1
+        this.createWinners(numPages)
+        this.buttonPrev.setAttribute('disabled', 'disabled')
       }
+      setLocaleStorage(String(numPages))
     })
   }
 
@@ -110,22 +104,18 @@ export class WinnersView {
     }
     const table = ElementCreator.createTable(paramsTable)
     this.numberPage.innerHTML = `#${numPages}`
-    const urls = `${url}${Path.winners}?_page=${numPages}&_limit=7`
+    const urls = `${url}${Path.winners}?_page=${numPages}&_limit=10`
     const loader = new Loader(urls, { method: 'GET' })
     loader.getResp((data?: Winners[]) => {
       if (data != null) {
-        console.log(data)
         // eslint-disable-next-line no-restricted-syntax, guard-for-in
         const values = Object.values(data)
-        // console.log(values)
         values.forEach((item: Winners) => {
-          console.log(item)
           const num = values.indexOf(item) + 1
-          console.log(num)
+          // const duration = item.time / 60
           const urlTwo = `${url}${Path.garage}/${item.id}`
           const loaderGarage = new Loader(urlTwo, { method: 'GET' })
           loaderGarage.getResp((dataGarage?: Data) => {
-            console.log(dataGarage)
             if (dataGarage != null) {
               const str = `<svg class="car" fill=${dataGarage.color} width="25px" height="25px" viewBox="0 -43.92 122.88 122.88" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  style="enable-background:new 0 0 122.88 35.03" xml:space="preserve">
 
@@ -154,9 +144,14 @@ export class WinnersView {
     countWinners()
   }
 
-  public createViewWinners (): HTMLElement {
-    console.log('winners')
-    this.createWinners(1)
+  public getWinners (numPages: number): HTMLElement {
+    this.createWinners(numPages)
+    this.viewWinners.append(this.titleWinners, this.page, this.winnersBlock, this.blockChangePages)
+    return this.viewWinners
+  }
+
+  public createViewWinner (): HTMLElement {
+    this.createWinners(this.numberPages)
     this.viewWinners.append(this.titleWinners, this.page, this.winnersBlock, this.blockChangePages)
     return this.viewWinners
   }
