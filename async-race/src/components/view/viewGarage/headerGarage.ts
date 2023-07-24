@@ -4,7 +4,7 @@ import { ElementCreatorButton } from '../../elemCreateButton'
 import { AutoBlockGenerator } from './generateCarsBlock'
 import { Path } from '../../types'
 import type { Params, element, Attribute, Data } from '../../types'
-import { generateCarsTwo, getId, submitForm, shuffle, countCars, stopCars, raseThree, setDisabled, removeDisabled } from '../../callbacks'
+import { generateCarsTwo, getId, submitForm, shuffle, countCars, stopCars, setDisabled, removeDisabled, animateCar } from '../../callbacks'
 import { Loader } from '../../loader/Loader'
 
 const url = 'http://127.0.0.1:3000'
@@ -77,14 +77,13 @@ export class HeaderGarage {
     this.header.append(this.formCreate, this.formChange, this.buttonsHeader)
 
     this.buttonRase.addEventListener('click', () => {
-      // this.buttonRase.setAttribute('disabled', 'disabled')
       setDisabled()
-      if (this.buttonReset.hasAttribute('disabled')) this.buttonReset.removeAttribute('disabled')
+      this.buttonReset.setAttribute('disabled', 'disabled')
       const ids = getId()
       ids.forEach((item) => {
         const el = document.querySelector(`[data-id=num${item}]`)
-        if (el instanceof HTMLElement) raseThree(el, Number(item)); console.log(item)
-      }); ids.forEach((item) => { console.log(item) })
+        if (el instanceof HTMLElement) animateCar(el, Number(item))
+      })
     })
 
     this.buttonReset.addEventListener('click', () => {
@@ -95,15 +94,6 @@ export class HeaderGarage {
       ids.forEach((item) => {
         const id = Number(item)
         stopCars(id)
-        /* const urls = `${url}${Path.engine}?id=${item}&status=stopped`
-        const args = { url: urls, method: 'PATCH' }
-        const loader = new Loader(urls, { method: 'PATCH' })
-        loader.getResp((data?: Data) => {
-          console.log(data)
-        })
-        const el = document.querySelector(`[data-id=num${item}]`)
-        const img = el?.querySelector('.img-auto')
-        if (img != null && img instanceof HTMLElement) img.style.transform = `translateX(${0}px)` */
       })
     })
 
@@ -120,84 +110,20 @@ export class HeaderGarage {
         loader.getResp((data?: Data) => {
           if (data != null) {
             const blockCar = new AutoBlockGenerator(data).getAutoBlock()
+            blockCar.setAttribute('data-id', `num${data.id}`)
             const garageBlock = document.querySelector('.garage-block')
             if (garageBlock != null && garageBlock.children.length < 7) { garageBlock.append(blockCar) }
           }
         })
       })
       countCars()
-      /* const urlTwo = `${url}${Path.garage}?_limit=7`
-      const loader = new Loader(urlTwo, { method: 'GET' })
-      loader.getRespResp((data?: Headers) => {
-        const num = data?.get('X-Total-Count')
-        if (num != null) {
-          const titleGarage = document.querySelector('.cars-num'); if (titleGarage != null) {
-            titleGarage.innerHTML = `${num}`
-          }
-        }
-      }) */
     })
 
-    /* this.formCreate.addEventListener('submit', (e) => {
-      e.preventDefault()
-      const urls = `${url}${Path.garage}`
-      if (this.formCreate instanceof HTMLFormElement) {
-        const argum = { form: this.formCreate, url: urls, method: 'POST', headers: { 'Content-Type': 'application/json' } }
-        const formData = new FormData(this.formCreate)
-        const obj: Obj = { }
-        formData.forEach((value, key) => { obj[key] = value })
-        const dataJson = JSON.stringify(obj)
-        console.log(dataJson)
-        const loader = new Loader(`${argum.url}`, {
-          method: `${argum.method}`,
-          headers: argum.headers,
-          body: dataJson
-        })
-        loader.getResp((data?: Data) => {
-          if (data != null) {
-            console.log(data)
-            if (argum.method === 'POST') {
-              super.createCars(data)
-            }
-          }
-        })
-      } if (e.target instanceof HTMLFormElement) { e.target.reset() }
-    }) */
-    /* this.formChange.addEventListener('submit', (e) => {
-      e.preventDefault()
-      const urls = `${url}${Path.garage}`
-      const argum = { form: this.formChange, url: urls, method: 'PUT', headers: { 'Content-Type': 'application/json' } }
-      if (this.formChange instanceof HTMLFormElement) {
-        const formData = new FormData(this.formChange)
-        const obj: Obj = { }
-        formData.forEach((value, key) => { obj[key] = value })
-        const dataJson = JSON.stringify(obj)
-        console.log(dataJson)
-        const loader = new Loader(`${argum.url}`, {
-          method: `${argum.method}`,
-          headers: argum.headers,
-          body: dataJson
-        })
-        loader.getResp((data?: Data) => {
-          if (data != null) {
-            const idStr = `num${data.id}`
-            const carBlock = document.querySelector(`[data-id = ${idStr}]`)
-            const nameCar = carBlock?.querySelector('.car-name')
-            const imgCar = carBlock?.querySelector('.img-auto')
-            console.log(nameCar)
-            if (nameCar != null) { nameCar.innerHTML = `${data.name}` }
-            if (imgCar != null && imgCar instanceof HTMLElement) { imgCar.style.color = `${data.color}` }
-          }
-        })
-      } if (e.target instanceof HTMLFormElement) { e.target.reset() }
-    }) */
     this.clickFormCreate()
     // this.clickFormUpdate()
   }
 
   public getHeaderGarage (): element {
-    // this.clickFormCreate()
-    // this.clickFormUpdate()
     return this.header
   }
 
@@ -217,36 +143,11 @@ export class HeaderGarage {
     return this.inputChangeColor
   }
 
-  /* public getGarage (numPages: number): HTMLElement {
-    return super.getGarage(numPages)
-  } */
-
   private clickFormCreate (): void {
-    console.log(this.formCreate)
     const urls = `${url}${Path.garage}`
     if (this.formCreate instanceof HTMLFormElement) {
       const argum = { form: this.formCreate, url: urls, method: 'POST', headers: { 'Content-Type': 'application/json' } }
       submitForm(argum)
     }
   }
-
-  /* private clickFormUpdate (): void {
-    const urls = `${url}:id`
-    const buttons = this.garage.querySelectorAll('button')
-    console.log(buttons)
-    this.garage.addEventListener('click', (e) => {
-      console.log(e)
-      if (e.target instanceof HTMLButtonElement && e.target.classList.contains('button-select')) {
-        console.log(e.target)
-        const arg = { url: urls, method: 'GET' }
-      }
-    })
-    this.formChange.addEventListener('submit', (e) => {
-      e.preventDefault()
-      if (this.formChange instanceof HTMLFormElement) {
-        const argum = { form: this.formChange, url: urls, method: 'PUT', headers: { 'Content-Type': 'application/json' } }
-        sendReq(argum)
-      }
-    })
-  } */
 }

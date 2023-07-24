@@ -2,17 +2,15 @@ import { AutoBlockGenerator } from './generateCarsBlock'
 import { ElementCreator } from '../../elemCreate'
 import { ElementCreatorButton } from '../../elemCreateButton'
 import { Loader } from '../../loader/Loader'
-import { countCars, sendReq, submitForm } from '../../callbacks'
+import { countCars } from '../../callbacks'
 import type { Data, Params, element } from '../../types'
 import { Path } from '../../types'
 import './viewGarage.css'
-import '../../svg.css'
 
 const url = 'http://127.0.0.1:3000'
 
 export class GarageBlock {
   public garage: HTMLElement
-  // public loader: Loader
   public titleGarage: element
   public numCars: element
   public numPage: element
@@ -74,7 +72,6 @@ export class GarageBlock {
     this.buttonPrev.setAttribute('disabled', 'disabled')
     this.blockChangePages.append(this.buttonPrev, this.buttonNext)
     this.blockTitle.append(this.titleGarage)
-    // this.loader = new Loader(url, { method: 'GET' })
     this.garage = ElementCreator.createElement(garagePage)
     this.garageBlock = ElementCreator.createElement(garageBlock)
     this.garage.append(this.blockTitle, this.titlePage, this.garageBlock, this.blockChangePages)
@@ -82,11 +79,9 @@ export class GarageBlock {
       this.garageBlock.innerHTML = ''
       if (this.buttonPrev.hasAttribute('disabled')) this.buttonPrev.removeAttribute('disabled')
       numPages += 1
-      console.log(numPages)
       this.createGarage(numPages)
     })
     this.buttonPrev.addEventListener('click', () => {
-      console.log(numPages)
       if (numPages > 2) {
         this.garageBlock.innerHTML = ''
         numPages -= 1
@@ -107,17 +102,11 @@ export class GarageBlock {
     const loader = new Loader(urls, { method: 'GET' })
     loader.getResp((data?: Data) => {
       if (data != null) {
-        console.log(data)
         // eslint-disable-next-line no-restricted-syntax, guard-for-in
         const values = Object.values(data)
-        // console.log(values)
         values.forEach((item: Data) => {
-          console.log(item)
           const blockCar = new AutoBlockGenerator(item).getAutoBlock()
-          // const blockCar = block.getAutoBlock()
           blockCar.setAttribute('data-id', `num${item.id}`)
-          // const img = block.getImg()
-          // img.style.color = `${item.color}`
           this.garageBlock.append(blockCar)
         })
       }
@@ -133,18 +122,4 @@ export class GarageBlock {
   public getGarageBlock (): HTMLElement {
     return this.garageBlock
   }
-
-  /* public createCars (data: Data): void {
-    const values = Object.values(data)
-    // console.log(values)
-    values.forEach((item: Data) => {
-      console.log(item)
-      const blockCar = new AutoBlockGenerator(item).getAutoBlock()
-      // const blockCar = block.getAutoBlock()
-      blockCar.setAttribute('data-id', `num${item.id}`)
-      // const img = block.getImg()
-      // img.style.color = `${item.color}`
-      this.garageBlock.append(blockCar)
-    })
-  } */
 }

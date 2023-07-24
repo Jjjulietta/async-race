@@ -91,7 +91,7 @@ body {
   
   .open {
     animation-name: open;
-    animation-duration: 5s;
+    animation-duration: 8s;
     animation-iteration-count: 1;
   }
   
@@ -103,7 +103,5 @@ body {
   }
   
   @media(max-width: 650px) {
-    .mainblock {
-      font-size: 12px;
-    }
+   
   }

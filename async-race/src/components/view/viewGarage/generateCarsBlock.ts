@@ -1,9 +1,8 @@
 
 // eslint-disable-next-line import/no-cycle
-import { raseThree, removeCar, removeDisabled, setDisabled, stopCars, submitForm } from '../../callbacks'
+import { countCars, raseThree, removeCar, removeDisabled, setDisabled, stopCars, submitForm } from '../../callbacks'
 import { ElementCreator } from '../../elemCreate'
 import { ElementCreatorButton } from '../../elemCreateButton'
-import { Loader } from '../../loader/Loader'
 import { Path } from '../../types'
 import type { Params, Data, ParamsImg } from '../../types'
 import './viewGarage.css'
@@ -81,33 +80,28 @@ export class AutoBlockGenerator {
     /* if (this.img.firstElementChild instanceof HTMLElement) */ this.img.style.color = `${data.color}`
     // console.log(this.img.style.color)
     const startPositions = this.img.getBoundingClientRect().left
-    // console.log(startPositions)
     this.block.append(this.buttonSelect, this.buttonRemove, this.carName, this.raseBlock)
     this.buttonRemove.addEventListener('click', () => {
       const attr = this.block.getAttribute('data-id')
-      console.log(attr)
       let id
       if (attr != null) {
         id = attr.slice(3)
-        console.log(id)
       } else { id = data.id }
       const urls = `${url}${Path.garage}/${id}`
       const args = { url: urls, method: 'DELETE' }
+      removeCar(args, id)
       this.block.remove()
-      removeCar(args)
+      countCars()
     })
 
     this.buttonSelect.addEventListener('click', () => {
       const attr = this.block.getAttribute('data-id')
-      console.log(attr)
       let id
       if (attr != null) {
         id = attr.slice(3)
-        console.log(id)
       } else { id = data.id }
       const urls = `${url}${Path.garage}/${id}`
       const inputUpdate: HTMLInputElement | null = document.querySelector('.input-update')
-      console.log(inputUpdate)
       inputUpdate?.focus()
       if (inputUpdate != null) {
         inputUpdate?.setAttribute('value', `${data.name}`)
@@ -121,38 +115,24 @@ export class AutoBlockGenerator {
     this.buttonStart.addEventListener('click', () => {
       const attr = this.block.getAttribute('data-id')
       setDisabled()
-      console.log(attr)
       let id
       if (attr != null) {
         id = Number(attr.slice(3))
-        console.log(id)
       } else { id = data.id }
-      /* const coordFlag = this.flag.offsetLeft - 40
-      console.log(coordFlag)
-      const urls = `${url}${Path.engine}?id=${id}&status=started`
-      const args = { url: urls, method: 'PATCH' }
-      rase(args, id, this.img, coordFlag) */
       raseThree(this.block, id)
       this.buttonStart.setAttribute('disabled', 'disablred')
       if (this.buttonStop.hasAttribute('disabled')) { this.buttonStop.removeAttribute('disabled') }
     })
 
     this.buttonStop.addEventListener('click', () => {
-      console.log(this.buttonStop)
-      console.log(startPositions)
       removeDisabled()
-      console.log(this.img.getBoundingClientRect().left)
       const flag = this.flag.getBoundingClientRect().left
       const currentPositions = this.img.getBoundingClientRect().left
       const num = startPositions - currentPositions + 40
-      console.log(num)
-      console.log(this.img)
       const attr = this.block.getAttribute('data-id')
-      console.log(attr)
       let id
       if (attr != null) {
         id = Number(attr.slice(3))
-        console.log(id)
         stopCars(Number(id))
         this.img.style.transform = `translateX(${0}px)`
         this.buttonStart.removeAttribute('disabled')
