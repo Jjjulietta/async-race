@@ -1,11 +1,12 @@
 
 // eslint-disable-next-line import/no-cycle
-import { countCars, raseThree, removeCar, removeDisabled, setDisabled, stopCars, submitForm } from '../../callbacks'
+import { countCars, findId, getId, raseThree, removeCar, removeDisabled, setDisabled, stopCars, submitForm } from '../../callbacks'
 import { ElementCreator } from '../../elemCreate'
 import { ElementCreatorButton } from '../../elemCreateButton'
 import { Path } from '../../types'
 import type { Params, Data, ParamsImg } from '../../types'
 import './viewGarage.css'
+import { Loader } from '../../loader/Loader'
 
 const url = 'http://127.0.0.1:3000'
 
@@ -82,16 +83,37 @@ export class AutoBlockGenerator {
     const startPositions = this.img.getBoundingClientRect().left
     this.block.append(this.buttonSelect, this.buttonRemove, this.carName, this.raseBlock)
     this.buttonRemove.addEventListener('click', () => {
+      const ids = getId()
       const attr = this.block.getAttribute('data-id')
       let id
       if (attr != null) {
         id = attr.slice(3)
       } else { id = data.id }
       const urls = `${url}${Path.garage}/${id}`
+      const idTwo = +ids[ids.length - 1] + 1
+      console.log(id)
+      console.log(idTwo)
       const args = { url: urls, method: 'DELETE' }
       removeCar(args, id)
       this.block.remove()
       countCars()
+      findId(idTwo)
+      /* const urlTwo = `${url}${Path.garage}/${idTwo}`
+      const loader = new Loader(urlTwo, { method: 'GET' })
+      loader.getResp((dataTwo?: Data) => {
+        if (dataTwo != null) {
+          console.log(dataTwo)
+          // eslint-disable-next-line no-restricted-syntax, guard-for-in
+          // const values = Object.values(dataTwo)
+          // console.log(values)
+          const blockCar = new AutoBlockGenerator(dataTwo).getAutoBlock()
+          blockCar.setAttribute('data-id', `num${dataTwo.id}`)
+          console.log(blockCar)
+          const garage = document.querySelector('.garage-block')
+          console.log(garage)
+          garage?.append(blockCar)
+        }
+      }) */
     })
 
     this.buttonSelect.addEventListener('click', () => {

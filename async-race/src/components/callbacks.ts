@@ -4,6 +4,7 @@ import { AutoBlockGenerator } from './view/viewGarage/generateCarsBlock'
 import type { element, Data, Velocity, Cars, Winners } from './types'
 import type { Obj } from './view/viewGarage/headerGarage'
 import { Path } from './types'
+// import { ElementCreatorInput } from './elemCreateInput'
 
 const url = 'http://127.0.0.1:3000'
 
@@ -47,16 +48,29 @@ export function deleteCar (arg: Arguments, id: string | number): void {
 }
 
 export function submitForm (arg: Arguments): void {
+  // const button = arg.form?.querySelector('button')
   arg.form?.addEventListener('submit', (e: Event) => {
     e.preventDefault()
     sendForm(arg)
-    if (e.target instanceof HTMLFormElement) { e.target.reset() }
-  })
+    // if (e.target instanceof HTMLFormElement) { e.target.reset() }
+  }, { once: true })
 }
 
 export function sendForm (arg: Arguments): void {
-  const formData = new FormData(arg.form)
+  /* const inputName: HTMLInputElement | null | undefined = arg.form?.querySelector('.input-update')
+  const inputColor: HTMLInputElement | null | undefined = arg.form?.querySelector('.input-color')
+  console.log(inputName)
+  console.log(inputColor) */
   const obj: Obj = { }
+  /* if (inputName instanceof HTMLInputElement && inputColor instanceof HTMLInputElement) {
+    // const name = inputName.value
+    // const color = inputColor.value
+    obj[inputName.name] = inputName.value
+    obj[inputColor.name] = inputColor.value
+    console.log(obj)
+  }
+  console.log(obj) */
+  const formData = new FormData(arg.form)
   formData.forEach((value, key) => { obj[key] = value })
   const dataJson = JSON.stringify(obj)
   const loader = new Loader(`${arg.url}`, {
@@ -64,7 +78,10 @@ export function sendForm (arg: Arguments): void {
     headers: arg.headers,
     body: dataJson
   })
-
+  // eslint-disable-next-line no-restricted-syntax
+  /* for (const key of formData.keys()) {
+    formData.delete(`${key}`)
+  } */
   loader.getResp((data?: Data) => {
     if (data != null) {
       if (arg.method === 'POST') {
@@ -132,7 +149,7 @@ export function animateCar (el: element, id: number): void {
           const duration = Math.floor(data.distance / data.velocity)
           // eslint-disable-next-line no-template-curly-in-string
           const animImg = img.animate([{ transform: `translateX(${startPositions}px` }, { transform: `translateX(${coordFlag}px` }], {
-            duration: duration
+            duration
           })
           img.style.transform = `translateX(${coordFlag}px)`
           const urlTwo = `${urls.slice(0, urls.lastIndexOf('='))}=drive`
@@ -281,6 +298,27 @@ export function countCars (): void {
       const titleGarage = document.querySelector('.cars-num'); if (titleGarage != null) {
         titleGarage.innerHTML = `(${num})`
       }
+    }
+  })
+}
+
+export function findId (id: number): void {
+  const urlTwo = `${url}${Path.garage}/${id}`
+  const loader = new Loader(urlTwo, { method: 'GET' })
+  loader.getResp((data?: Data) => {
+    console.log(data)
+    if (data?.id === undefined && data?.id == null) { findId(id + 1) } else if (data != null) {
+      console.log(data)
+      // if (data.id === undefined) { findId(+data.id + 1) }
+      // eslint-disable-next-line no-restricted-syntax, guard-for-in
+      // const values = Object.values(dataTwo)
+      // console.log(values)
+      const blockCar = new AutoBlockGenerator(data).getAutoBlock()
+      blockCar.setAttribute('data-id', `num${data.id}`)
+      console.log(blockCar)
+      const garage = document.querySelector('.garage-block')
+      console.log(garage)
+      garage?.append(blockCar)
     }
   })
 }
