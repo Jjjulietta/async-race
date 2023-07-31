@@ -1,6 +1,6 @@
 ## Presentation
 
-#### Link to YouTube []()
+#### Link to YouTube [presentation SCRUM](https://youtu.be/9yy8L6R9Wlo)
 
 #### Link to Presentation Reveal [reveal-presentation](https://jjjulietta.github.io/presentation/reveal/)
 
